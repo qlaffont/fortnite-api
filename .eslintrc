@@ -1,0 +1,66 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    "semi": "error",
+    "semi-spacing": "error",
+    "no-console": "off",
+    "no-extra-parens": [
+      "error",
+      "all"
+    ],
+    "require-await": "error",
+    "yoda": "error",
+    "brace-style": [
+      "error",
+      "1tbs", {
+        "allowSingleLine": true
+      }
+    ],
+    "max-len": [
+      "error",
+      150,
+      2
+    ],
+    "no-useless-escape": "error",
+    "key-spacing": "error",
+    "comma-spacing": [
+      "error", {
+        "before": false,
+        "after": true
+      }
+    ],
+    "keyword-spacing": [
+      "error", {
+        "overrides": {
+          "if": {
+            "after": true
+          },
+          "for": {
+            "after": true
+          },
+          "while": {
+            "after": true
+          },
+          "catch": {
+            "after": true
+          },
+          "switch": {
+            "after": true
+          }
+        }
+      }
+    ],
+    "no-whitespace-before-property": "error"
+  }
+}
