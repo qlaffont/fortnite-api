@@ -244,8 +244,11 @@ module.exports = {
       //Calculate timePlayed
       result["lifetimeStats"]["timePlayed"] = timeConvert(result["lifetimeStats"]["timePlayed"]);
 
-      //Calculate timeConvert
+      //Calculate KIllsPerMin
       result["lifetimeStats"]["killsPerMin"] = killsPerMin(result["lifetimeStats"]["kills"], totalTime);
+
+      //Calculate killsPerMatch
+      result["lifetimeStats"]["killsPerMatch"] = killsPerMatch(result["lifetimeStats"]["kills"], result["lifetimeStats"]["matches"]);
 
       resolve(result);
     });
