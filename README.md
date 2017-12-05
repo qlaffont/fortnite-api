@@ -1,70 +1,196 @@
 # Fortnite-API
-A simple to use module for interacting with the FortniteTracker API.
-FORK FROM https://github.com/Jake-Ruston/fortnite AND RESOLVE ERROR
+A simple to use module for interacting with the FortniteTracker API. Inspiration from Jake-Ruston and Xilixir packages
+
 
 ## Install
 ```
-$ npm install fortnite-API
+$ npm install fortnite-api
 ```
-## How to
+
+## API
+
+### INIT
+To setup this module, you need to have an account on Epic Games. After that you need to get 2 dedicated headers from Fortnite.
+
+How to get these headers ?
+- Install & Open Fiddler 4
+- In Tools -> Options -> HTTPS, Select Capture HTTPS Connects
+- After that start your epic games launcher.
+- You will see a request with */account/api/oauth/token*. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Client Launcher Token**
+- Launch Fortnite
+- You will see again a request with */account/api/oauth/token*. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Fortnite Client Token**
+
+
+
+--------
+
+### SETUP
 ```js
 // require the package
-const fortnite = require('fortnite');
-fortnite('mrappi', 'pc').then(data => console.log(data));
-```
-- `username` is required and must be a string.
-- `platform` is `pc` by default. Possible platforms are: `pc`, `xbl` `psn`.
+const fortniteApi = require('fortnite-api');
 
-## Example Response
+let fortniteAPI = new Fortnite(["EMAIL_ACCOUNT", "PASSWORD", "CLIENT LAUNCHER TOKEN", "FORTNITE CLIENT TOKEN"]);
+
+fortniteAPI.login()
+.then(() => {
+    //YOUR CODE
+});
+```
+
+
+-------
+
+### METHODS
+
+- getStatsBR(username: `String`, platform: `String`) : `Promise` with `Object` Return
+
+Get Battle Royal Stat for platform (pc, ps4, xb1);
+
 ```js
-{
-  solo: [
-    Data { stat: 'wins', value: '208' },
-    Data { stat: 'top3', value: '0' },
-    Data { stat: 'top5', value: '0' },
-    Data { stat: 'top6', value: '0' },
-    Data { stat: 'top10', value: '376' },
-    Data { stat: 'top12', value: '0' },
-    Data { stat: 'top25', value: '483' },
-    Data { stat: 'k/d', value: '6.06' },
-    Data { stat: 'win%', value: '24' },
-    Data { stat: 'matches', value: '868' },
-    Data { stat: 'kills', value: '4000' },
-    Data { stat: 'timePlayed', value: '11084' },
-    Data { stat: 'killsPerMin', value: '0.36' },
-    Data { stat: 'killsPerMatch', value: '4.61' }
-   ],
-  duo: [
-    Data { stat: 'wins', value: '15' },
-    Data { stat: 'top3', value: '0' },
-    Data { stat: 'top5', value: '28' },
-    Data { stat: 'top6', value: '0' },
-    Data { stat: 'top10', value: '0' },
-    Data { stat: 'top12', value: '47' },
-    Data { stat: 'top25', value: '0' },
-    Data { stat: 'k/d', value: '4.33' },
-    Data { stat: 'win%', value: '15.5' },
-    Data { stat: 'matches', value: '97' },
-    Data { stat: 'kills', value: '355' },
-    Data { stat: 'timePlayed', value: '1050' },
-    Data { stat: 'killsPerMin', value: '0.34' },
-    Data { stat: 'killsPerMatch', value: '3.66' }
-  ],
-  squad: [
-    Data { stat: 'wins', value: '65' },
-    Data { stat: 'top3', value: '152' },
-    Data { stat: 'top5', value: '0' },
-    Data { stat: 'top6', value: '152' },
-    Data { stat: 'top10', value: '0' },
-    Data { stat: 'top12', value: '0' },
-    Data { stat: 'top25', value: '0' },
-    Data { stat: 'k/d', value: '4.77' },
-    Data { stat: 'win%', value: '17.6' },
-    Data { stat: 'matches', value: '370' },
-    Data { stat: 'kills', value: '1454' },
-    Data { stat: 'timePlayed', value: '4421' },
-    Data { stat: 'killsPerMin', value: '0.33' },
-    Data { stat: 'killsPerMatch', value: '3.93' }
-  ]
+fortniteApi.login()
+.then(()=> {
+  test.getStatsBR("Mirardes", "pc")
+  .fortniteApi((stats) => {
+    console.log(stats);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+```
+
+
+```js
+{ group:
+   { solo:
+      { wins: 1,
+        top3: 0,
+        top5: 0,
+        top6: 0,
+        top10: 11,
+        top12: 0,
+        top25: 29,
+        'k/d': '0.95',
+        'win%': '0.01',
+        matches: 122,
+        kills: 115,
+        timePlayed: '14h 47m',
+        killsPerMatch: '0.94',
+        killsPerMin: '0.13' },
+     duo:
+      { wins: 0,
+        top3: 0,
+        top5: 9,
+        top6: 0,
+        top10: 0,
+        top12: 18,
+        top25: 0,
+        'k/d': '1.25',
+        'win%': '0.00',
+        matches: 60,
+        kills: 75,
+        timePlayed: '7h 11m',
+        killsPerMatch: '1.25',
+        killsPerMin: '0.17' },
+     squad:
+      { wins: 1,
+        top3: 12,
+        top5: 0,
+        top6: 16,
+        top10: 0,
+        top12: 0,
+        top25: 0,
+        'k/d': '1.43',
+        'win%': '0.02',
+        matches: 59,
+        kills: 83,
+        timePlayed: '9h 19m',
+        killsPerMatch: '1.41',
+        killsPerMin: '0.15' } },
+  info:
+   { accountId: '6372c32ec81d4a0a9f6e79f0d5edc31a',
+     username: 'Mirardes',
+     platform: 'pc' },
+  lifetimeStats:
+   { wins: 2,
+     top3s: 12,
+     top5s: 9,
+     top6s: 16,
+     top10s: 11,
+     top12s: 18,
+     top25s: 29,
+     'k/d': '1.14',
+     'win%': '0.01',
+     matches: 241,
+     kills: 273,
+     killsPerMin: '0.15',
+     timePlayed: '1d 7h 17m' }
+   }
+ }
+```
+
+- getFortniteNews(lang) : `Promise` with `Object` Return
+
+Get Fortnite News on 'en' or 'fr'
+
+```js
+fortniteApi.login()
+.then(()=> {
+  test.getFortniteNews("en")
+  .fortniteApi((news) => {
+    console.log(news);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+```
+
+```js
+{ common:
+   { _type: 'CommonUI Simple Message Base',
+     title: 'Battle Royale',
+     body: 'Now with SQUADS! Grab three friends and hop into the action. \n\nRem
+ember - Squads are here! Teaming in solo play is still unfair to others and is a
+ bannable offense.'
+   },
+  br:
+   [
+     { image: 'https://cdn2.unrealengine.com/Fortnite%2FFNBR_Smoke-Grenade_256x2
+56-256x256-4c3bf793478a899d276daaf6c18b980657c92784.png',
+       _type: 'CommonUI Simple Message Base',
+       title: 'Smoke Grenade',
+       body: 'This non-lethal grenade is thrown like a frag but obscures vision
+with a white smoke instead of splodin’ other players. Live now!'
+     },
+     { image: 'https://cdn2.unrealengine.com/Fortnite%2FFortnite_BR-MOTD-Teaser_
+256x256-256x256-e3f2814d7ef6ffdc9c568338c5c6d88d76e0f641.png',
+       _type: 'CommonUI Simple Message Base',
+       title: 'Coming Soon! - New Mode!',
+       body: 'Watch The Game Awards show on Dec. 7 … details on a fun, new, limi
+ted-time mode will be revealed live.'
+      }
+    ]
 }
+```
+
+- checkFortniteStatus() : `Promise` with `Boolean` Return
+
+Check if fortnite is ON (Return True) or Not (Return False)
+
+```js
+fortniteApi.login()
+.then(()=> {
+  test.checkFortniteStatus()
+  .fortniteApi((news) => {
+    console.log(news);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+```
+
+```js
+  true
 ```
