@@ -1,6 +1,6 @@
 {
   "name": "fortnite-api",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Fortnite API",
   "main": "index.js",
   "scripts": {
