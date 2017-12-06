@@ -201,9 +201,9 @@ module.exports = {
       result["group"]["squad"]["k/d"] = kdRate(result["group"]["squad"]["kills"], result["group"]["squad"]["matches"] - result["group"]["squad"]["wins"]);
 
       //Calculate WinRate
-      result["group"]["solo"]["win%"] = winRate(result["group"]["solo"]["wins"], result["group"]["solo"]["matches"]);
-      result["group"]["duo"]["win%"] = winRate(result["group"]["duo"]["wins"], result["group"]["duo"]["matches"]);
-      result["group"]["squad"]["win%"] = winRate(result["group"]["squad"]["wins"], result["group"]["squad"]["matches"]);
+      result["group"]["solo"]["win%"] = winRate(result["group"]["solo"]["wins"], result["group"]["solo"]["matches"]) * 100;
+      result["group"]["duo"]["win%"] = winRate(result["group"]["duo"]["wins"], result["group"]["duo"]["matches"]) * 100;
+      result["group"]["squad"]["win%"] = winRate(result["group"]["squad"]["wins"], result["group"]["squad"]["matches"]) * 100;
 
       //Calculate killsPerMin
       result["group"]["solo"]["killsPerMin"] = killsPerMin(result["group"]["solo"]["kills"], result["group"]["solo"]["timePlayed"]);
@@ -239,7 +239,7 @@ module.exports = {
       result["lifetimeStats"]["k/d"] = kdRate(result["lifetimeStats"]["kills"], result["lifetimeStats"]["matches"] - result["lifetimeStats"]["wins"]);
 
       //Calculate WinRate
-      result["lifetimeStats"]["win%"] = winRate(result["lifetimeStats"]["wins"], result["lifetimeStats"]["matches"]);
+      result["lifetimeStats"]["win%"] = winRate(result["lifetimeStats"]["wins"], result["lifetimeStats"]["matches"]) * 100;
 
       //Calculate timePlayed
       result["lifetimeStats"]["timePlayed"] = timeConvert(result["lifetimeStats"]["timePlayed"]);
