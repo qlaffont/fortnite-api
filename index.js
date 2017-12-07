@@ -2,11 +2,11 @@ const request = require("request-promise");
 const EndPoint = require("./tools/endpoint");
 const Stats = require('./tools/stats');
 
-console.log("Ini ok");
+console.log("Fortnite-API - Initialisation OK");
 class FortniteApi {
   constructor(credentials){
     if (credentials && credentials.constructor === Array && credentials.length == 4){
-      console.log("param OK");
+      console.log("Fortnite-API - Credentials Params OK");
       this.credentials = credentials;
     } else {
       console.log("Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]");

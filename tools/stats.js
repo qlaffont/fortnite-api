@@ -66,7 +66,8 @@ module.exports = {
             "kills": 0,
             "timePlayed": 0,
             "killsPerMatch": 0,
-            "killsPerMin": 0
+            "killsPerMin": 0,
+            "score": 0
           },
           duo: {
             wins: 0,
@@ -82,7 +83,8 @@ module.exports = {
             "kills": 0,
             "timePlayed": 0,
             "killsPerMatch": 0,
-            "killsPerMin": 0
+            "killsPerMin": 0,
+            "score": 0
           },
           squad: {
             wins: 0,
@@ -98,7 +100,8 @@ module.exports = {
             "kills": 0,
             "timePlayed": 0,
             "killsPerMatch": 0,
-            "killsPerMin": 0
+            "killsPerMin": 0,
+            "score": 0
           }
         },
         info: {
@@ -174,6 +177,10 @@ module.exports = {
         //Kills
         if (key.indexOf("kills") !== -1) {
           type = "kills";
+        }
+
+        if (key.indexOf("score") !== -1) {
+          type = "score";
         }
 
         //MinutesPlayed
