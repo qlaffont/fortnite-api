@@ -4,13 +4,13 @@ function timeConvert(time) {
     if (h > 0) result += h + "h ";//nb hours
     if (m > 0) result += m + "m";//nb minutes
     else result = result + "0m ";
-  
+
     return result.trim();
   }
-  
-  function ratio(a,b){ if(parseInt(b) === 0) return 0; else return (parseInt(a)/parseInt(b)).toFixed(2); }
-  function rate(a,b){ if(parseInt(b) === 0) return 0; else return (parseInt(a)/parseInt(b) * 100).toFixed(2); }
-  
+
+  function ratio(a, b){if (parseInt(b) === 0) return 0; else return (parseInt(a)/parseInt(b)).toFixed(2); }
+  function rate(a, b){if (parseInt(b) === 0) return 0; else return (parseInt(a)/parseInt(b) * 100).toFixed(2); }
+
   module.exports = {
     checkPlatform: (stats, platform) => {
       if (stats[0].name.indexOf(platform) !== -1) return true;
@@ -18,7 +18,7 @@ function timeConvert(time) {
     },
     convert: (stats, user, platform) => {
       return new Promise ((resolve) => {
-  
+
         let result = {
           group: {
             solo: {
@@ -94,15 +94,15 @@ function timeConvert(time) {
             "timePlayed": 0
           }
         };
-  
+
         let totalTime = 0;
-  
+
         //Get Data
         stats.forEach((elem)  => {
           let key = elem.name;
           let type = "";
           let mode = "";
-  
+
           //Wins
           if (key.indexOf("placetop1") !== -1) type = "wins";//top 1
           else if (key.indexOf("placetop3") !== -1) type = "top3";//top 3
@@ -118,42 +118,42 @@ function timeConvert(time) {
             totalTime = totalTime + elem.value;
             type = "timePlayed";
           }
-  
+
           if (key.indexOf("_p2") !== -1) mode = "solo";
           else if (key.indexOf("_p10") !== -1) mode = "duo";
           else mode = "squad";
 
           if (type) result.group[mode][type] = elem.value;
         });
-  
+
         //Calculate KDRate
         result.group.solo["k/d"] = ratio(result.group.solo["kills"], result.group.solo["matches"] - result.group.solo["wins"]);
         result.group.duo["k/d"] = ratio(result.group.duo["kills"], result.group.duo["matches"] - result.group.duo["wins"]);
         result.group.squad["k/d"] = ratio(result.group.squad["kills"], result.group.squad["matches"] - result.group.squad["wins"]);
-  
+
         //Calculate WinRate
         result.group.solo["win%"] = rate(result.group.solo["wins"], result.group.solo["matches"]);
         result.group.duo["win%"] = rate(result.group.duo["wins"], result.group.duo["matches"]);
         result.group.squad["win%"] = rate(result.group.squad["wins"], result.group.squad["matches"]);
-  
+
         //Calculate killsPerMin
         result.group.solo["killsPerMin"] = ratio(result.group.solo["kills"], result.group.solo["timePlayed"]);
         result.group.duo["killsPerMin"] = ratio(result.group.duo["kills"], result.group.duo["timePlayed"]);
         result.group.squad["killsPerMin"] = ratio(result.group.squad["kills"], result.group.squad["timePlayed"]);
-  
+
         //Calculate timeConvert
         result.group.solo["timePlayed"] = timeConvert(result.group.solo["timePlayed"]);
         result.group.duo["timePlayed"] = timeConvert(result.group.duo["timePlayed"]);
         result.group.squad["timePlayed"] = timeConvert(result.group.squad["timePlayed"]);
-  
+
         //Calculate killsPerMatch
         result.group.solo["killsPerMatch"] = ratio(result.group.solo["kills"], result.group.solo["matches"]);
         result.group.duo["killsPerMatch"] = ratio(result.group.duo["kills"], result.group.duo["matches"]);
         result.group.squad["killsPerMatch"] = ratio(result.group.squad["kills"], result.group.squad["matches"]);
-  
-  
+
+
         // <------------------------------------------------------------------->
-  
+
         //Calculate lifetimeStats
         result.lifetimeStats["wins"] = result.group.solo["wins"] + result.group.duo["wins"] + result.group.squad["wins"];
         result.lifetimeStats["top3s"] = result.group.solo["top3"] + result.group.duo["top3"] + result.group.squad["top3"];
@@ -165,22 +165,22 @@ function timeConvert(time) {
         result.lifetimeStats["matches"] = result.group.solo["matches"] + result.group.duo["matches"] + result.group.squad["matches"];
         result.lifetimeStats["kills"] = result.group.solo["kills"] + result.group.duo["kills"] + result.group.squad["kills"];
         result.lifetimeStats["timePlayed"] = totalTime;
-  
+
         //Calculate KDRate
         result.lifetimeStats["k/d"] = ratio(result.lifetimeStats["kills"], result.lifetimeStats["matches"] - result.lifetimeStats["wins"]);
-  
+
         //Calculate WinRate
         result.lifetimeStats["win%"] = rate(result.lifetimeStats["wins"], result.lifetimeStats["matches"]);
-  
+
         //Calculate timePlayed
         result.lifetimeStats["timePlayed"] = timeConvert(result.lifetimeStats["timePlayed"]);
-  
+
         //Calculate KIllsPerMin
         result.lifetimeStats["killsPerMin"] = ratio(result.lifetimeStats["kills"], totalTime);
-  
+
         //Calculate killsPerMatch
         result.lifetimeStats["killsPerMatch"] = ratio(result.lifetimeStats["kills"], result.lifetimeStats["matches"]);
-  
+
         resolve(result);
       });
     }

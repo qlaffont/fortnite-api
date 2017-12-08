@@ -225,7 +225,7 @@ class FortniteApi {
           resolve(false);
         }
       })
-      .catch((err) => {
+      .catch(() => {
         reject("Impossible to fetch fortnite data");
       });
     });
