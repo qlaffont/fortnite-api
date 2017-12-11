@@ -9,7 +9,7 @@ class FortniteApi {
       console.log("Fortnite-API - Credentials Params OK");
       this.credentials = credentials;
     } else {
-      console.log("Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]");
+      console.log("Fortnite-API - Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]");
       process.exit();
     }
 
@@ -20,7 +20,8 @@ class FortniteApi {
 
   checkToken(){
     let actualDate = new Date();
-    if (this.expires_at && this.expires_at <= actualDate) {
+    let expireDate = new Date(new Date(this.expires_at).getTime() - 15 * 60000);
+    if (this.expires_at && expireDate < actualDate) {
       this.expires_at = undefined;
       //Refresh Token
       request({
@@ -98,7 +99,7 @@ class FortniteApi {
             this.expires_at = data.expires_at;
             this.access_token = data.access_token;
             this.refresh_token = data.refresh_token;
-            resolve();
+            resolve(this.expires_at);
           })
           .catch((err) => {
             reject(err);
