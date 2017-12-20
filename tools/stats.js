@@ -13,8 +13,18 @@ function timeConvert(time) {
 
   module.exports = {
     checkPlatform: (stats, platform) => {
-      if (stats[0].name.indexOf(platform) !== -1) return true;
-      else return false;
+      let result = false;
+
+      stats.every(function(elem){
+        if (elem.name.indexOf("_" + platform + "_") != -1){
+          result = true;
+          return false;
+        } else {
+          return true;
+        }
+      });
+
+      return result;
     },
     convert: (stats, user, platform) => {
       return new Promise ((resolve) => {
