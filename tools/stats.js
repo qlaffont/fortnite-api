@@ -114,17 +114,17 @@ function timeConvert(time) {
           let mode = "";
 
           //Wins
-          if (key.indexOf("placetop1_") !== -1) type = "wins";//top 1
-          else if (key.indexOf("placetop3_") !== -1) type = "top3";//top 3
-          else if (key.indexOf("placetop5_") !== -1) type = "top5";//top 5
-          else if (key.indexOf("placetop6_") !== -1) type = "top6";//top 6
-          else if (key.indexOf("placetop10_") !== -1) type = "top10";//top 10
-          else if (key.indexOf("placetop12_") !== -1) type = "top12";//top 12
-          else if (key.indexOf("placetop25_") !== -1) type = "top25";//top 25
-          else if (key.indexOf("matchesplayed_") !== -1) type = "matches";//matches
-          else if (key.indexOf("kills_") !== -1) type = "kills";//kills
-          else if (key.indexOf("score_") !== -1) type = "score";//score
-          else if (key.indexOf("minutesplayed_") !== -1) {//minutes played
+          if (key.indexOf("placetop1_"+ platform) !== -1) type = "wins";//top 1
+          else if (key.indexOf("placetop3_"+ platform) !== -1) type = "top3";//top 3
+          else if (key.indexOf("placetop5_"+ platform) !== -1) type = "top5";//top 5
+          else if (key.indexOf("placetop6_"+ platform) !== -1) type = "top6";//top 6
+          else if (key.indexOf("placetop10_"+ platform) !== -1) type = "top10";//top 10
+          else if (key.indexOf("placetop12_"+ platform) !== -1) type = "top12";//top 12
+          else if (key.indexOf("placetop25_"+ platform) !== -1) type = "top25";//top 25
+          else if (key.indexOf("matchesplayed_"+ platform) !== -1) type = "matches";//matches
+          else if (key.indexOf("kills_"+ platform) !== -1) type = "kills";//kills
+          else if (key.indexOf("score_"+ platform) !== -1) type = "score";//score
+          else if (key.indexOf("minutesplayed_"+ platform) !== -1) {//minutes played
             totalTime = totalTime + elem.value;
             type = "timePlayed";
           }

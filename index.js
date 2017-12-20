@@ -156,8 +156,9 @@ class FortniteApi {
           json: true
         })
         .then((stats) => {
+          console.log(stats);
           if (Stats.checkPlatform(stats, platform.toLowerCase() || "pc")){
-            Stats.convert(stats, data, platform)
+            Stats.convert(stats, data, platform.toLowerCase())
             .then((resultStats) => {
               resolve(resultStats);
             });
