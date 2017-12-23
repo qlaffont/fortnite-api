@@ -134,6 +134,45 @@ class FortniteApi {
     });
   }
 
+  checkPlayer(username, platform){
+    return new Promise((resolve, reject) =>  {
+      if (!username || !platform){
+        reject("Please precise username and platform");
+      }
+
+      if (!(platform == "pc" || platform ==  "ps4" || platform == "xb1")) {
+        reject("Please precise a good platform: ps4/xb1/pc");
+      }
+
+      this.lookup(username)
+      .then((data) => {
+        request({
+          url: EndPoint.statsBR(data.id),
+          headers: {
+            'Authorization': 'bearer ' + this.access_token
+          },
+          method: 'GET',
+          json: true
+        })
+        .then((stats) => {
+          if (Stats.checkPlatform(stats, platform.toLowerCase() || "pc")){
+            resolve("User Found !");
+          } else {
+            reject("Impossible to fetch User. User not found on this platform");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject("Impossible to fetch User.");
+        });
+      })
+      .catch(() => {
+        reject("Player Not Found");
+      });
+
+    });
+  }
+
   getStatsBR(username, platform){
     return new Promise((resolve, reject) => {
 
@@ -202,8 +241,7 @@ class FortniteApi {
           br: data.battleroyalenews.news.message || data.battleroyalenews.news.messages
         });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         reject("Impossible to fetch fortnite data");
       });
     });
