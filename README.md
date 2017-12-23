@@ -42,6 +42,27 @@ fortniteAPI.login()
 
 ### METHODS
 
+- checkPlayer() : `Promise` with `String` Return
+
+Check if player is found on this platform
+
+```js
+fortniteApi.login()
+.then(()=> {
+  test.checkPlayer("Mirardes", "pc")
+  .then((stats) => {
+    console.log(stats);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+```
+
+```js
+  "User Found !"
+```
+
 - getStatsBR(username: `String`, platform: `String`) : `Promise` with `Object` Return
 
 Get Battle Royal Stat for platform (pc, ps4, xb1);
