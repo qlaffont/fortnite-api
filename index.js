@@ -156,13 +156,12 @@ class FortniteApi {
         })
         .then((stats) => {
           if (Stats.checkPlatform(stats, platform.toLowerCase() || "pc")){
-            resolve("User Found !");
+            resolve(data);
           } else {
             reject("Impossible to fetch User. User not found on this platform");
           }
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           reject("Impossible to fetch User.");
         });
       })
