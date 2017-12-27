@@ -238,7 +238,6 @@ class FortniteApi {
         resolve({
           common: data.athenamessage.overrideablemessage.message || data.athenamessage.overrideablemessage.messages,
           br: data.battleroyalenews.news.message || data.battleroyalenews.news.messages,
-          athenamessage: data.athenamessage.overrideablemessage.message || data.athenamessage.overrideablemessage.messages,
           loginmessage: data.loginmessage.loginmessage.message || data.loginmessage.loginmessage.messages,
           survivalmessage: data.survivalmessage.overrideablemessage.message || data.survivalmessage.overrideablemessage.messages
         });
