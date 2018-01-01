@@ -1,5 +1,8 @@
 # Fortnite-API
-A simple to use module for interacting with the FortniteTracker API. Inspiration from Jake-Ruston and Xilixir packages
+A simple to use module for interacting with Fortnite API. Inspiration from Jake-Ruston and Xilixir packages.
+
+Support:
+You can support me with a donation : [Paypal Donation](https://www.paypal.me/qlaffont)
 
 
 ## Install
