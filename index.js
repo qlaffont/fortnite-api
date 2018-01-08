@@ -307,6 +307,102 @@ class FortniteApi {
     });
   }
 
+  getFortnitePVEInfo(lang){
+    return new Promise((resolve, reject) => {
+      let headers = {};
+      switch (lang.toLowerCase()) {
+        case "fr":
+          headers["X-EpicGames-Language"] = "fr-FR";
+          break;
+        case "en":
+          headers["X-EpicGames-Language"] = "en";
+          break;
+        default:
+          headers["X-EpicGames-Language"] = "en";
+      }
+
+      headers['Authorization'] = 'bearer ' + this.access_token;
+
+      request({
+        url: EndPoint.FortnitePVEInfo,
+        method: 'GET',
+        headers: headers,
+        json: true
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject("Impossible to fetch fortnite data !");
+      });
+    });
+  }
+
+  getStore(lang){
+    return new Promise((resolve, reject) => {
+      let headers = {};
+      switch (lang.toLowerCase()) {
+        case "fr":
+          headers["X-EpicGames-Language"] = "fr-FR";
+          break;
+        case "en":
+          headers["X-EpicGames-Language"] = "en";
+          break;
+        default:
+          headers["X-EpicGames-Language"] = "en";
+      }
+
+      headers['Authorization'] = 'bearer ' + this.access_token;
+
+      request({
+        url: EndPoint.FortniteStore,
+        method: 'GET',
+        headers: headers,
+        json: true
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject("Impossible to fetch fortnite data !");
+      });
+    });
+  }
+
+  //@TODO : WIP
+  getStatsPVE(username){
+    return new Promise((resolve, reject) => {
+      this.lookup(username)
+      .then((data) => {
+        request({
+          url: EndPoint.statsPVE(data.id),
+          headers: {
+            'Authorization': 'bearer ' + this.access_token
+          },
+          method: 'POST',
+          json: true
+        })
+        .then((stats) => {
+          if (stats){
+            resolve(stats);
+          } else {
+            reject("Impossible to fetch User. User not found on this platform");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject("Impossible to fetch User.");
+        });
+      })
+      .catch(() => {
+        reject("Player Not Found");
+      });
+    });
+  }
+
+
 }
 
 module.exports = FortniteApi;

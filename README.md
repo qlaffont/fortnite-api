@@ -51,7 +51,7 @@ Check if player is found on this platform
 
 ```js
 fortniteApi.login()
-.then(()=> {
+.then((test)=> {
   test.checkPlayer("Mirardes", "pc")
   .then((stats) => {
     console.log(stats);
@@ -72,7 +72,7 @@ Get Battle Royal Stat for platform (pc, ps4, xb1);
 
 ```js
 fortniteApi.login()
-.then(()=> {
+.then((test)=> {
   test.getStatsBR("Mirardes", "pc")
   .fortniteApi((stats) => {
     console.log(stats);
@@ -159,7 +159,7 @@ Get Battle Royal Stat for platform (pc, ps4, xb1);
 
 ```js
 fortniteApi.login()
-.then(()=> {
+.then((test)=> {
   test.getStatsBR("8zaeza784eaze2", "pc")
   .fortniteApi((stats) => {
     console.log(stats);
@@ -246,7 +246,7 @@ Get Fortnite News on 'en' or 'fr'
 
 ```js
 fortniteApi.login()
-.then(()=> {
+.then((test)=> {
   test.getFortniteNews("en")
   .fortniteApi((news) => {
     console.log(news);
@@ -291,8 +291,50 @@ Check if fortnite is ON (Return True) or Not (Return False)
 
 ```js
 fortniteApi.login()
-.then(()=> {
+.then((test)=> {
   test.checkFortniteStatus()
+  .fortniteApi((news) => {
+    console.log(news);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+```
+
+```js
+  true
+```
+
+- getFortnitePVEInfo() : `Promise` with `Array` Return
+
+Get Fortnite PVE Info (storm, etc)
+
+```js
+fortniteApi.login()
+.then((test)=> {
+  test.getFortnitePVEInfo()
+  .fortniteApi((news) => {
+    console.log(news);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+```
+
+```js
+  true
+```
+
+- getStore() : `Promise` with `Array` Return
+
+Get Fortnite Store
+
+```js
+fortniteApi.login()
+.then((test)=> {
+  test.getStore()
   .fortniteApi((news) => {
     console.log(news);
   })
