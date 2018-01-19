@@ -30,7 +30,7 @@ How to get these headers ?
 ### SETUP
 ```js
 // require the package
-const fortniteApi = require('fortnite-api');
+const Fortnite = require('fortnite-api');
 
 let fortniteAPI = new Fortnite(["EMAIL_ACCOUNT", "PASSWORD", "CLIENT LAUNCHER TOKEN", "FORTNITE CLIENT TOKEN"]);
 
@@ -50,9 +50,9 @@ fortniteAPI.login()
 Check if player is found on this platform
 
 ```js
-fortniteApi.login()
-.then((test)=> {
-  test.checkPlayer("Mirardes", "pc")
+fortniteAPI.login()
+.then(()=> {
+  fortniteAPI.checkPlayer("Mirardes", "pc")
   .then((stats) => {
     console.log(stats);
   })
@@ -71,10 +71,10 @@ fortniteApi.login()
 Get Battle Royal Stat for platform (pc, ps4, xb1);
 
 ```js
-fortniteApi.login()
-.then((test)=> {
-  test.getStatsBR("Mirardes", "pc")
-  .fortniteApi((stats) => {
+fortniteAPI.login()
+.then(()=> {
+  fortniteAPI.getStatsBR("Mirardes", "pc")
+  .then((stats) => {
     console.log(stats);
   })
   .catch((err) => {
@@ -158,10 +158,10 @@ fortniteApi.login()
 Get Battle Royal Stat for platform (pc, ps4, xb1);
 
 ```js
-fortniteApi.login()
-.then((test)=> {
-  test.getStatsBR("8zaeza784eaze2", "pc")
-  .fortniteApi((stats) => {
+fortniteAPI.login()
+.then(()=> {
+  fortniteAPI.getStatsBR("8zaeza784eaze2", "pc")
+  .then((stats) => {
     console.log(stats);
   })
   .catch((err) => {
@@ -245,10 +245,10 @@ fortniteApi.login()
 Get Fortnite News on 'en' or 'fr'
 
 ```js
-fortniteApi.login()
-.then((test)=> {
-  test.getFortniteNews("en")
-  .fortniteApi((news) => {
+fortniteAPI.login()
+.then(()=> {
+  fortniteAPI.getFortniteNews("en")
+  .then((news) => {
     console.log(news);
   })
   .catch((err) => {
@@ -290,11 +290,11 @@ ted-time mode will be revealed live.'
 Check if fortnite is ON (Return True) or Not (Return False)
 
 ```js
-fortniteApi.login()
-.then((test)=> {
-  test.checkFortniteStatus()
-  .fortniteApi((news) => {
-    console.log(news);
+fortniteAPI.login()
+.then(()=> {
+  fortniteAPI.checkFortniteStatus()
+  .then((status) => {
+    console.log(status);
   })
   .catch((err) => {
     console.log(err);
@@ -311,11 +311,11 @@ fortniteApi.login()
 Get Fortnite PVE Info (storm, etc)
 
 ```js
-fortniteApi.login()
-.then((test)=> {
-  test.getFortnitePVEInfo()
-  .fortniteApi((news) => {
-    console.log(news);
+fortniteAPI.login()
+.then(()=> {
+  fortniteAPI.getFortnitePVEInfo()
+  .then((pveInfo) => {
+    console.log(pveInfo);
   })
   .catch((err) => {
     console.log(err);
@@ -332,11 +332,11 @@ fortniteApi.login()
 Get Fortnite Store
 
 ```js
-fortniteApi.login()
-.then((test)=> {
-  test.getStore()
-  .fortniteApi((news) => {
-    console.log(news);
+fortniteAPI.login()
+.then(()=> {
+  fortniteAPI.getStore()
+  .then((store) => {
+    console.log(store);
   })
   .catch((err) => {
     console.log(err);
