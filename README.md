@@ -160,7 +160,7 @@ Get Battle Royal Stat for platform (pc, ps4, xb1);
 ```js
 fortniteAPI.login()
 .then(()=> {
-  fortniteAPI.getStatsBR("8zaeza784eaze2", "pc")
+  fortniteAPI.getStatsBR("Mirardes", "pc")
   .then((stats) => {
     console.log(stats);
   })
@@ -238,6 +238,23 @@ fortniteAPI.login()
      timePlayed: '1d 7h 17m' }
    }
  }
+```
+
+- getStatsPVE(username: `String`) : `Promise` with `Object` Return
+
+Get PVE Stat ;
+
+```js
+fortniteAPI.login()
+.then(()=> {
+  fortniteAPI.getStatsPVE("Mirardes")
+  .then((stats) => {
+    console.log(stats);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
 ```
 
 - getFortniteNews(lang) : `Promise` with `Object` Return
