@@ -391,7 +391,7 @@ class FortniteApi {
           if (stats){
             resolve(stats.profileChanges[0]);
           } else {
-            reject("Impossible to fetch User. User not found on this platform");
+            reject("No Data");
           }
         })
         .catch((err) => {
