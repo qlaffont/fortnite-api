@@ -14,6 +14,6 @@ module.exports = {
     return "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/stats/accountId/" + accountId + "/bulk/window/alltime";
   },
   statsPVE: (accountId) => {
-    return "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/" + accountId + "/client/QueryProfile?profileId=athena&rvn=-1";
+    return "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/" + accountId + "/public/QueryProfile?profileId=profile0&rvn=-1";
   }
 };
