@@ -371,7 +371,7 @@ class FortniteApi {
     });
   }
 
-  //@TODO : WIP
+  //@MENTION : Thanks to y3n help !
   getStatsPVE(username){
     return new Promise((resolve, reject) => {
       this.lookup(username)
@@ -382,13 +382,16 @@ class FortniteApi {
             'Authorization': 'bearer ' + this.access_token
           },
           method: 'POST',
-          json: true
+          json: true,
+          body: {
+
+          }
         })
         .then((stats) => {
           if (stats){
-            resolve(stats);
+            resolve(stats.profileChanges[0]);
           } else {
-            reject("Impossible to fetch User. User not found on this platform");
+            reject("No Data");
           }
         })
         .catch((err) => {
