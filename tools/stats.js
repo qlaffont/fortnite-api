@@ -191,6 +191,9 @@ function timeConvert(time) {
         //Calculate killsPerMatch
         result.lifetimeStats["killsPerMatch"] = ratio(result.lifetimeStats["kills"], result.lifetimeStats["matches"]);
 
+        //Calculate total score
+        result.lifetimeStats["score"] = result.group.solo["score"] + result.group.duo["score"] + result.group.squad["score"];
+
         resolve(result);
       });
     }
