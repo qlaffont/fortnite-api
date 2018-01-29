@@ -101,7 +101,8 @@ function timeConvert(time) {
             "matches": 0,
             "kills": 0,
             "killsPerMin": 0,
-            "timePlayed": 0
+            "timePlayed": 0,
+            "score": 0
           }
         };
 
@@ -190,6 +191,9 @@ function timeConvert(time) {
 
         //Calculate killsPerMatch
         result.lifetimeStats["killsPerMatch"] = ratio(result.lifetimeStats["kills"], result.lifetimeStats["matches"]);
+
+        //Calculate total score | @MENTION : @SkYNewZ pull request
+        result.lifetimeStats["score"] = result.group.solo["score"] + result.group.duo["score"] + result.group.squad["score"];
 
         resolve(result);
       });
