@@ -323,14 +323,15 @@ fortniteAPI.login()
   true
 ```
 
-- getFortnitePVEInfo() : `Promise` with `Array` Return
+- getFortnitePVEInfo(lang) : `Promise` with `Array` Return
 
 Get Fortnite PVE Info (storm, etc)
+lang => FR/EN
 
 ```js
 fortniteAPI.login()
 .then(()=> {
-  fortniteAPI.getFortnitePVEInfo()
+  fortniteAPI.getFortnitePVEInfo("fr")
   .then((pveInfo) => {
     console.log(pveInfo);
   })
@@ -344,14 +345,15 @@ fortniteAPI.login()
   true
 ```
 
-- getStore() : `Promise` with `Array` Return
+- getStore(lang) : `Promise` with `Array` Return
 
 Get Fortnite Store
+lang => FR/EN
 
 ```js
 fortniteAPI.login()
 .then(()=> {
-  fortniteAPI.getStore()
+  fortniteAPI.getStore("fr")
   .then((store) => {
     console.log(store);
   })
