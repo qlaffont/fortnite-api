@@ -15,5 +15,8 @@ module.exports = {
   },
   statsPVE: (accountId) => {
     return "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/" + accountId + "/public/QueryProfile?profileId=profile0&rvn=-1";
-  }
+  },
+  friends: (accountId) => {
+	return "https://friends-public-service-prod06.ol.epicgames.com/friends/api/public/friends/" + accountId;  
+  },
 };
