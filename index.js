@@ -99,6 +99,7 @@ class FortniteApi {
             this.expires_at = data.expires_at;
             this.access_token = data.access_token;
             this.refresh_token = data.refresh_token;
+			this.account_id = data.account_id;
             resolve(this.expires_at);
           })
           .catch((err) => {
@@ -405,7 +406,24 @@ class FortniteApi {
     });
   }
 
-
+  getFriends(){
+    return new Promise((resolve, reject) => {
+      request({
+        url: EndPoint.friends(this.account_id),
+        headers: {
+          'Authorization': 'bearer ' + this.access_token
+		  'includePending' : 'false'
+        },
+        method: 'GET',
+        json: true
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    });
+  }
 }
-
 module.exports = FortniteApi;
