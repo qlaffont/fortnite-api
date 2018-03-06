@@ -7,7 +7,7 @@ class FortniteApi {
     this.debug = false;
     if(options) {
       if('debug' in options && options.debug !== undefined) {
-        this.debug = true;
+        this.debug = options.debug;
       }
     }
     if (credentials && credentials.constructor === Array && credentials.length == 4){
