@@ -5,8 +5,8 @@ const Stats = require('./tools/stats');
 class FortniteApi {
   constructor(credentials, options){
     this.debug = false;
-    if(options) {
-      if('debug' in options && options.debug !== undefined) {
+    if (options) {
+      if ('debug' in options && options.debug !== undefined) {
         this.debug = options.debug;
       }
     }
