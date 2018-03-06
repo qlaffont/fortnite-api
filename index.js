@@ -15,7 +15,7 @@ class FortniteApi {
       this.credentials = credentials;
     } else {
       this.debug && console.log("Fortnite-API - Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]");
-      process.exit();
+      throw "Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]";
     }
 
     setInterval(() => {
