@@ -2,15 +2,20 @@ const request = require("request-promise");
 const EndPoint = require("./tools/endpoint");
 const Stats = require('./tools/stats');
 
-console.log("Fortnite-API - Initialisation OK");
 class FortniteApi {
-  constructor(credentials){
+  constructor(credentials, options){
+    this.debug = false;
+    if (options) {
+      if ('debug' in options && options.debug !== undefined) {
+        this.debug = options.debug;
+      }
+    }
     if (credentials && credentials.constructor === Array && credentials.length == 4){
-      console.log("Fortnite-API - Credentials Params OK");
+      this.debug && console.log("Fortnite-API - Credentials Params OK");
       this.credentials = credentials;
     } else {
-      console.log("Fortnite-API - Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]");
-      process.exit();
+      this.debug && console.log("Fortnite-API - Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]");
+      throw new Error("Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]");
     }
 
     setInterval(() => {
@@ -204,7 +209,7 @@ class FortniteApi {
           }
         })
         .catch((err) => {
-          console.log(err);
+          this.debug && console.log(err);
           reject("Impossible to fetch User.");
         });
       })
@@ -244,7 +249,7 @@ class FortniteApi {
         }
       })
       .catch((err) => {
-        console.log(err);
+        this.debug && console.log(err);
         reject("Impossible to fetch User.");
       });
     });
@@ -333,7 +338,7 @@ class FortniteApi {
         resolve(data);
       })
       .catch((err) => {
-        console.log(err);
+        this.debug && console.log(err);
         reject("Impossible to fetch fortnite data !");
       });
     });
@@ -365,7 +370,7 @@ class FortniteApi {
         resolve(data);
       })
       .catch((err) => {
-        console.log(err);
+        this.debug && console.log(err);
         reject("Impossible to fetch fortnite data !");
       });
     });
@@ -395,7 +400,7 @@ class FortniteApi {
           }
         })
         .catch((err) => {
-          console.log(err);
+          this.debug && console.log(err);
           reject("Impossible to fetch User.");
         });
       })
@@ -404,8 +409,6 @@ class FortniteApi {
       });
     });
   }
-
-
 }
 
 module.exports = FortniteApi;

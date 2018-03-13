@@ -32,7 +32,14 @@ How to get these headers ?
 // require the package
 const Fortnite = require('fortnite-api');
 
-let fortniteAPI = new Fortnite(["EMAIL_ACCOUNT", "PASSWORD", "CLIENT LAUNCHER TOKEN", "FORTNITE CLIENT TOKEN"]);
+let fortniteAPI = new Fortnite([
+    "EMAIL_ACCOUNT",
+    "PASSWORD",
+    "CLIENT LAUNCHER TOKEN",
+    "FORTNITE CLIENT TOKEN"
+  ], {
+    debug: true
+  });
 
 fortniteAPI.login()
 .then(() => {
