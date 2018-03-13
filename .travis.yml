@@ -3,4 +3,4 @@ sudo: false
 install:
   - npm install
 script:
-  - node
+  - npm run test
