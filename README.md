@@ -1,9 +1,13 @@
 # Fortnite-API
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 A simple to use module for interacting with Fortnite API. Inspiration from Jake-Ruston and Xilixir packages.
 
 Support:
 You can support me with a donation : [Paypal Donation](https://www.paypal.me/qlaffont)
 
+
+**/!\ WARNING /!\** : This library is _only for Node.JS_ application.
 
 ## Install
 ```

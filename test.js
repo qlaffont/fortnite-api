@@ -12,7 +12,7 @@ let test = new FortniteApi(
 
 test.login().then(() => {
     test
-        .checkPlayer("Mirardes", "pc")
+        .getStatsPVE("Mirardes")
         .then(data => {
             console.log(data);
             process.exit();
