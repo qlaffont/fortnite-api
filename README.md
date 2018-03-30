@@ -7,7 +7,7 @@ Support:
 You can support me with a donation : [Paypal Donation](https://www.paypal.me/qlaffont)
 
 
-**/!\ WARNING /!\** : This library is _only for Node.JS_ application.
+**⚠ WARNING ⚠** : This library is _only for Node.JS_ application.
 
 ## Install
 ```
