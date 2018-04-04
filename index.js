@@ -176,7 +176,6 @@ class FortniteApi {
                         json: true
                     })
                         .then(stats => {
-                            console.log(stats);
                             if (
                                 Stats.checkPlatform(
                                     stats,
