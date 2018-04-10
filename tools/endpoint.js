@@ -32,5 +32,8 @@ module.exports = {
             accountId +
             "/public/QueryProfile?profileId=profile0&rvn=-1"
         );
+    },
+    killSession: token => {
+        return "https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/sessions/kill/" + token;
     }
 };

@@ -377,3 +377,5 @@ fortniteAPI.login()
 ```js
   true
 ```
+
+- killSession() : `Promise` with no Return | Kill Session

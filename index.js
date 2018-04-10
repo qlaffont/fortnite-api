@@ -37,7 +37,7 @@ class FortniteApi {
         let expireDate = new Date(
             new Date(this.expires_at).getTime() - 15 * 60000
         );
-        if (this.expires_at && expireDate < actualDate) {
+        if (this.access_token && this.expires_at && expireDate < actualDate) {
             this.expires_at = undefined;
             //Refresh Token
             request({
@@ -458,6 +458,26 @@ class FortniteApi {
                 .catch(() => {
                     reject("Player Not Found");
                 });
+        });
+    }
+
+    killSession() {
+        return new Promise((resolve, reject) => {
+            request({
+                url: EndPoint.killSession(this.access_token),
+                headers: {
+                    Authorization: "bearer " + this.access_token
+                },
+                method: "DELETE",
+                json: true,
+                body: {}
+            })
+            .then(() => {
+                resolve();
+            })
+            .catch(() => {
+                reject();
+            });
         });
     }
 }
