@@ -430,36 +430,37 @@ class FortniteApi {
     }
 
     //@MENTION : Thanks to y3n help !
-    getStatsPVE(username) {
-        return new Promise((resolve, reject) => {
-            this.lookup(username)
-                .then(data => {
-                    request({
-                        url: EndPoint.statsPVE(data.id),
-                        headers: {
-                            Authorization: "bearer " + this.access_token
-                        },
-                        method: "POST",
-                        json: true,
-                        body: {}
-                    })
-                        .then(stats => {
-                            if (stats) {
-                                resolve(stats.profileChanges[0]);
-                            } else {
-                                reject("No Data");
-                            }
-                        })
-                        .catch(err => {
-                            this.debug && console.log(err);
-                            reject("Impossible to fetch User.");
-                        });
-                })
-                .catch(() => {
-                    reject("Player Not Found");
-                });
-        });
-    }
+    //No working anymore
+    // getStatsPVE(username) {
+    //     return new Promise((resolve, reject) => {
+    //         this.lookup(username)
+    //             .then(data => {
+    //                 request({
+    //                     url: EndPoint.statsPVE(data.id),
+    //                     headers: {
+    //                         Authorization: "bearer " + this.access_token
+    //                     },
+    //                     method: "POST",
+    //                     json: true,
+    //                     body: {}
+    //                 })
+    //                     .then(stats => {
+    //                         if (stats) {
+    //                             resolve(stats.profileChanges[0]);
+    //                         } else {
+    //                             reject("No Data");
+    //                         }
+    //                     })
+    //                     .catch(err => {
+    //                         this.debug && console.log(err);
+    //                         reject("Impossible to fetch User.");
+    //                     });
+    //             })
+    //             .catch(() => {
+    //                 reject("Player Not Found");
+    //             });
+    //     });
+    // }
 
     killSession() {
         return new Promise((resolve, reject) => {
@@ -472,12 +473,12 @@ class FortniteApi {
                 json: true,
                 body: {}
             })
-            .then(() => {
-                resolve();
-            })
-            .catch(() => {
-                reject();
-            });
+                .then(() => {
+                    resolve();
+                })
+                .catch(() => {
+                    reject();
+                });
         });
     }
 }
