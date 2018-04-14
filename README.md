@@ -1,4 +1,5 @@
 # Fortnite-API
+
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 A simple to use module for interacting with Fortnite API. Inspiration from Jake-Ruston and Xilixir packages.
@@ -6,10 +7,10 @@ A simple to use module for interacting with Fortnite API. Inspiration from Jake-
 Support:
 You can support me with a donation : [Paypal Donation](https://www.paypal.me/qlaffont)
 
-
 **⚠ WARNING ⚠** : This library is _only for Node.JS_ application.
 
 ## Install
+
 ```
 $ npm install fortnite-api
 ```
@@ -17,83 +18,84 @@ $ npm install fortnite-api
 ## API
 
 ### INIT
+
 To setup this module, you need to have an account on Epic Games. After that you need to get 2 dedicated headers from Fortnite.
 
 How to get these headers ?
-- Install & Open Fiddler 4
-- In Tools -> Options -> HTTPS, Select Capture HTTPS Connects
-- After that start your epic games launcher.
-- You will see a request with */account/api/oauth/token*. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Client Launcher Token**
-- Launch Fortnite
-- You will see again a request with */account/api/oauth/token*. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Fortnite Client Token**
 
+*   Install & Open Fiddler 4
+*   In Tools -> Options -> HTTPS, Select Capture HTTPS Connects
+*   After that start your epic games launcher.
+*   You will see a request with _/account/api/oauth/token_. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Client Launcher Token**
+*   Launch Fortnite
+*   You will see again a request with _/account/api/oauth/token_. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Fortnite Client Token**
 
-
---------
+---
 
 ### SETUP
+
 ```js
 // require the package
-const Fortnite = require('fortnite-api');
+const Fortnite = require("fortnite-api");
 
-let fortniteAPI = new Fortnite([
-    "EMAIL_ACCOUNT",
-    "PASSWORD",
-    "CLIENT LAUNCHER TOKEN",
-    "FORTNITE CLIENT TOKEN"
-  ], {
-    debug: true
-  });
+let fortniteAPI = new Fortnite(
+    [
+        "EMAIL_ACCOUNT",
+        "PASSWORD",
+        "CLIENT LAUNCHER TOKEN",
+        "FORTNITE CLIENT TOKEN"
+    ],
+    {
+        debug: true
+    }
+);
 
-fortniteAPI.login()
-.then(() => {
+fortniteAPI.login().then(() => {
     //YOUR CODE
 });
 ```
 
-
--------
+---
 
 ### METHODS
 
-- checkPlayer() : `Promise` with `String` Return
+*   checkPlayer() : `Promise` with `String` Return
 
 Check if player is found on this platform
 
 ```js
-fortniteAPI.login()
-.then(()=> {
-  fortniteAPI.checkPlayer("Mirardes", "pc")
-  .then((stats) => {
-    console.log(stats);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+fortniteAPI.login().then(() => {
+    fortniteAPI
+        .checkPlayer("Mirardes", "pc")
+        .then(stats => {
+            console.log(stats);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 ```
 
 ```js
-  "User Found !"
+"User Found !";
 ```
 
-- getStatsBR(username: `String`, platform: `String`) : `Promise` with `Object` Return
+*   getStatsBR(username: `String`, platform: `String`) : `Promise` with `Object` Return
 
 Get Battle Royal Stat for platform (pc, ps4, xb1);
 
 ```js
-fortniteAPI.login()
-.then(()=> {
-  fortniteAPI.getStatsBR("Mirardes", "pc")
-  .then((stats) => {
-    console.log(stats);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+fortniteAPI.login().then(() => {
+    fortniteAPI
+        .getStatsBR("Mirardes", "pc")
+        .then(stats => {
+            console.log(stats);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 ```
-
 
 ```js
 { group:
@@ -164,23 +166,22 @@ fortniteAPI.login()
  }
 ```
 
-- getStatsBRFromID(idFortniteUser: `String`, platform: `String`) : `Promise` with `Object` Return
+*   getStatsBRFromID(idFortniteUser: `String`, platform: `String`) : `Promise` with `Object` Return
 
 Get Battle Royal Stat for platform (pc, ps4, xb1);
 
 ```js
-fortniteAPI.login()
-.then(()=> {
-  fortniteAPI.getStatsBR("Mirardes", "pc")
-  .then((stats) => {
-    console.log(stats);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+fortniteAPI.login().then(() => {
+    fortniteAPI
+        .getStatsBR("Mirardes", "pc")
+        .then(stats => {
+            console.log(stats);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 ```
-
 
 ```js
 { group:
@@ -251,37 +252,20 @@ fortniteAPI.login()
  }
 ```
 
-- getStatsPVE(username: `String`) : `Promise` with `Object` Return
-
-Get PVE Stat ;
-
-```js
-fortniteAPI.login()
-.then(()=> {
-  fortniteAPI.getStatsPVE("Mirardes")
-  .then((stats) => {
-    console.log(stats);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-});
-```
-
-- getFortniteNews(lang) : `Promise` with `Object` Return
+*   getFortniteNews(lang) : `Promise` with `Object` Return
 
 Get Fortnite News on 'en' or 'fr'
 
 ```js
-fortniteAPI.login()
-.then(()=> {
-  fortniteAPI.getFortniteNews("en")
-  .then((news) => {
-    console.log(news);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+fortniteAPI.login().then(() => {
+    fortniteAPI
+        .getFortniteNews("en")
+        .then(news => {
+            console.log(news);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 ```
 
@@ -313,69 +297,90 @@ ted-time mode will be revealed live.'
 }
 ```
 
-- checkFortniteStatus() : `Promise` with `Boolean` Return
+*   checkFortniteStatus() : `Promise` with `Boolean` Return
 
 Check if fortnite is ON (Return True) or Not (Return False)
 
 ```js
-fortniteAPI.login()
-.then(()=> {
-  fortniteAPI.checkFortniteStatus()
-  .then((status) => {
-    console.log(status);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+fortniteAPI.login().then(() => {
+    fortniteAPI
+        .checkFortniteStatus()
+        .then(status => {
+            console.log(status);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 ```
 
 ```js
-  true
+true;
 ```
 
-- getFortnitePVEInfo(lang) : `Promise` with `Array` Return
+*   getFortnitePVEInfo(lang) : `Promise` with `Array` Return
 
 Get Fortnite PVE Info (storm, etc)
 lang => FR/EN
 
 ```js
-fortniteAPI.login()
-.then(()=> {
-  fortniteAPI.getFortnitePVEInfo("fr")
-  .then((pveInfo) => {
-    console.log(pveInfo);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+fortniteAPI.login().then(() => {
+    fortniteAPI
+        .getFortnitePVEInfo("fr")
+        .then(pveInfo => {
+            console.log(pveInfo);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 ```
 
 ```js
-  true
+true;
 ```
 
-- getStore(lang) : `Promise` with `Array` Return
+*   getStore(lang) : `Promise` with `Array` Return
 
 Get Fortnite Store
 lang => FR/EN
 
 ```js
-fortniteAPI.login()
-.then(()=> {
-  fortniteAPI.getStore("fr")
-  .then((store) => {
-    console.log(store);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+fortniteAPI.login().then(() => {
+    fortniteAPI
+        .getStore("fr")
+        .then(store => {
+            console.log(store);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 ```
 
 ```js
-  true
+true;
 ```
 
-- killSession() : `Promise` with no Return | Kill Session
+*   killSession() : `Promise` with no Return | Kill Session
+
+---
+
+## DEPRECATED
+
+*   getStatsPVE(username: `String`) : `Promise` with `Object` Return
+
+Get PVE Stat :
+
+```js
+fortniteAPI.login().then(() => {
+    fortniteAPI
+        .getStatsPVE("Mirardes")
+        .then(stats => {
+            console.log(stats);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+```
