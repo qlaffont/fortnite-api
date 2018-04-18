@@ -38,5 +38,12 @@ module.exports = {
             "https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/sessions/kill/" +
             token
         );
+    },
+    leaderBoardScore: (plat,groupType) => {
+        return `https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/leaderboards/type/global/stat/br_placetop1_${plat}_m0${groupType}/window/weekly?ownertype=1&itemsPerPage=50`
+    },
+    displayNameFromIds: (ids) => {
+        return 'https://account-public-service-prod03.ol.epicgames.com/account/api/public/account?accountId='+ids.join('&accountId=')
     }
+    
 };
