@@ -1,6 +1,6 @@
-let FortniteApi = require(".");
+let Fortnite = require(".");
 
-let test = new FortniteApi(
+let test = new Fortnite(
     [
         process.env.EMAIL,
         process.env.PWD,
@@ -12,13 +12,11 @@ let test = new FortniteApi(
 
 test.login().then(() => {
     test
-        .getStatsPVE("Mirardes")
-        .then(data => {
-            console.log(data);
-            process.exit();
+        .getScoreLeaderBoard("pc", Fortnite.SOLO)
+        .then(leaderboard => {
+            console.log(leaderboard);
         })
         .catch(err => {
             console.log(err);
-            process.exit();
         });
 });
