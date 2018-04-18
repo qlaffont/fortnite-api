@@ -429,6 +429,7 @@ class FortniteApi {
         });
     }
 
+
     static get SOLO() { return "_p2" }
     static get DUO() { return "_p10" }  
     static get SQUAD() { return "_p9" } 

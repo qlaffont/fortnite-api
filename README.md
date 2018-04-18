@@ -362,6 +362,7 @@ fortniteAPI.login().then(() => {
 true;
 ```
 
+
 *    getScoreLeaderBoard(platform,type) : `Promise` with `Array` Return
 
 Get Fortnite global leaderboard

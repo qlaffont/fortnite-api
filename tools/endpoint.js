@@ -44,6 +44,7 @@ module.exports = {
     },
     displayNameFromIds: (ids) => {
         return 'https://account-public-service-prod03.ol.epicgames.com/account/api/public/account?accountId='+ids.join('&accountId=')
+
     }
     
 };
