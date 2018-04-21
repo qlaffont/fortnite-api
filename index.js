@@ -467,10 +467,11 @@ class FortniteApi {
                     json: true
                 }).then(displayNames => {
                     leaderboard.forEach(i => {
-                        i.displayName = displayNames.find(ii => ii.id === i.accountId).displayName
-                    })
-
-                    resolve(leaderboard)
+                        const account = displayNames.find(ii => ii.id === i.accountId);
+                        // for some reason not all the accounts are returned
+                        i.displayName = account ? account.displayName : '';
+                    });
+                    resolve(leaderboard);
                 })
                 .catch(err => {
                     reject(err)
