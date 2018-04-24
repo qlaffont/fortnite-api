@@ -2,7 +2,11 @@ const request = require("request-promise");
 const EndPoint = require("./tools/endpoint");
 const Stats = require("./tools/stats");
 
+
+const LAUNCHER_AUTHORIZATION = "MzRhMDJjZjhmNDQxNGUyOWIxNTkyMTg3NmRhMzZmOWE6ZGFhZmJjY2M3Mzc3NDUwMzlkZmZlNTNkOTRmYzc2Y2Y=";
+const FORTNITE_AUTHORIZATION = "ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ";
 class FortniteApi {
+
     constructor(credentials, options) {
         this.debug = false;
         if (options) {
@@ -13,7 +17,7 @@ class FortniteApi {
         if (
             credentials &&
             credentials.constructor === Array &&
-            credentials.length == 4
+            credentials.length == 2
         ) {
             this.debug && console.log("Fortnite-API - Credentials Params OK");
             this.credentials = credentials;
@@ -43,7 +47,7 @@ class FortniteApi {
             request({
                 url: EndPoint.OAUTH_TOKEN,
                 headers: {
-                    Authorization: "basic " + this.credentials[3]
+                    Authorization: "basic " + LAUNCHER_AUTHORIZATION
                 },
                 form: {
                     grant_type: "refresh_token",
@@ -81,7 +85,7 @@ class FortniteApi {
             request({
                 url: EndPoint.OAUTH_TOKEN,
                 headers: {
-                    Authorization: "basic " + this.credentials[2]
+                    Authorization: "basic " + LAUNCHER_AUTHORIZATION
                 },
                 form: tokenConfig,
                 method: "POST",
@@ -105,7 +109,7 @@ class FortniteApi {
                                 url: EndPoint.OAUTH_TOKEN,
                                 headers: {
                                     Authorization:
-                                        "basic " + this.credentials[3]
+                                        "basic " + FORTNITE_AUTHORIZATION
                                 },
                                 form: {
                                     grant_type: "exchange_code",
