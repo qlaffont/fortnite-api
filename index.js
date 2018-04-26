@@ -431,15 +431,15 @@ class FortniteApi {
 
 
     static get SOLO() { return "_p2" }
-    static get DUO() { return "_p10" }  
-    static get SQUAD() { return "_p9" } 
-    
+    static get DUO() { return "_p10" }
+    static get SQUAD() { return "_p9" }
+
     getScoreLeaderBoard(platform,type) {
         return new Promise((resolve, reject) => {
             if (!(platform == "pc" || platform == "ps4" || platform == "xb1")) {
                 reject("Please precise a good platform: ps4/xb1/pc")
             }
-    
+
             if(!(type == this.constructor.SOLO || type == this.constructor.DUO || type == this.constructor.SQUAD)) {
                 reject("Please precise a good type FortniteApi.SOLO/FortniteApi.DUO/FortniteApi.SQUAD")
             }
@@ -465,12 +465,13 @@ class FortniteApi {
                     },
                     method: "GET",
                     json: true
-                }).then(displayNames => {    
+                }).then(displayNames => {
                     leaderboard.forEach(i => {
-                        i.displayName = displayNames.find(ii => ii.id === i.accountId).displayName
-                    })
-
-                    resolve(leaderboard)
+                        const account = displayNames.find(ii => ii.id === i.accountId);
+                        // for some reason not all the accounts are returned
+                        i.displayName = account ? account.displayName : '';
+                    });
+                    resolve(leaderboard);
                 })
                 .catch(err => {
                     reject(err)

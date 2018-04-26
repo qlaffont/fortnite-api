@@ -12,7 +12,7 @@ let test = new Fortnite(
 
 test.login().then(() => {
     test
-        .getScoreLeaderBoard("pc",Fortnite.SOLO)
+        .getScoreLeaderBoard("pc", Fortnite.SOLO)
         .then(leaderboard => {
             console.log(leaderboard);
         })
