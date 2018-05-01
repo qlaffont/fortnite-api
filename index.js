@@ -299,10 +299,25 @@ class FortniteApi {
         return new Promise((resolve, reject) => {
             let headers = {};
             switch (lang.toLowerCase()) {
-                case "fr":
-                    headers["Accept-Language"] = "fr-FR";
+                case "fr": // French
+                    headers["Accept-Language"] = "fr";
                     break;
-                case "en":
+                case "de": // Deutsch
+                    headers["Accept-Language"] = "de";
+                    break;
+                case "es": // Spanish
+                    headers["Accept-Language"] = "es";
+                    break;
+                case "zh": // Chinese
+                    headers["Accept-Language"] = "zh";
+                    break;
+                case "it": // Italian
+                    headers["Accept-Language"] = "it";
+                    break;
+                case "ja": // Japanese
+                    headers["Accept-Language"] = "ja";
+                    break;
+                case "en": // English
                     headers["Accept-Language"] = "en";
                     break;
                 default:
@@ -402,9 +417,18 @@ class FortniteApi {
             let headers = {};
             switch (lang.toLowerCase()) {
                 case "fr":
-                    headers["X-EpicGames-Language"] = "fr-FR";
+                    headers["X-EpicGames-Language"] = "fr";
                     break;
-                case "en":
+                case "de": // Deutsch
+                    headers["X-EpicGames-Language"] = "de";
+                    break;
+                case "es": // Spanish
+                    headers["X-EpicGames-Language"] = "es";
+                    break;
+                case "it": // Italian
+                    headers["X-EpicGames-Language"] = "it";
+                    break;
+                case "en": // English
                     headers["X-EpicGames-Language"] = "en";
                     break;
                 default:
@@ -467,10 +491,11 @@ class FortniteApi {
                     json: true
                 }).then(displayNames => {
                     leaderboard.forEach(i => {
-                        i.displayName = displayNames.find(ii => ii.id === i.accountId).displayName
-                    })
-
-                    resolve(leaderboard)
+                        const account = displayNames.find(ii => ii.id === i.accountId);
+                        // for some reason not all the accounts are returned
+                        i.displayName = account ? account.displayName : '';
+                    });
+                    resolve(leaderboard);
                 })
                 .catch(err => {
                     reject(err)
