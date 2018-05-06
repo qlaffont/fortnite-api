@@ -25,6 +25,7 @@ How to get these headers ?
 
 *   Install & Open Fiddler 4
 *   In Tools -> Options -> HTTPS, Select Capture HTTPS Connects
+*   In Tools -> Options -> HTTPS, Select Decrypt HTTPS traffic
 *   Start Capture (F12)
 *   After that start your epic games launcher.
 *   You will see a request with /account/api/oauth/token. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Client Launcher Token**
