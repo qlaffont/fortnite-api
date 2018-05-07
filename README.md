@@ -391,7 +391,6 @@ fortniteAPI.login().then(() => {
 ```
 
 ```js
-
 [ 
     { accountId: '385c4d9ab7e3498db533ff4d2d9f4c5b',
     value: 905,
