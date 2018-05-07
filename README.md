@@ -361,8 +361,6 @@ fortniteAPI.login().then(() => {
         .catch(err => {
             console.log(err);
         });
-<<<<<<< HEAD
-=======
 });
 ```
 
@@ -389,14 +387,11 @@ fortniteAPI.login().then(() => {
         .catch(err => {
             console.log(err);
         });
->>>>>>> 196fe30c85d4e866c2de1d6b012ee17613f1d274
 });
 ```
 
 ```js
-<<<<<<< HEAD
-true;
-=======
+
 [ 
     { accountId: '385c4d9ab7e3498db533ff4d2d9f4c5b',
     value: 905,
@@ -599,7 +594,6 @@ true;
     rank: 50,
     displayName: 'Ninja' } 
     ]
->>>>>>> 196fe30c85d4e866c2de1d6b012ee17613f1d274
 ```
 
 *   killSession() : `Promise` with no Return | Kill Session
