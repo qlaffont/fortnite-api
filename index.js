@@ -155,7 +155,7 @@ class FortniteApi {
         });
     }
 
-    checkPlayer(username, platform) {
+    checkPlayer(username, platform, timeWindow) {
         return new Promise((resolve, reject) => {
             if (!username || !platform) {
                 reject("Please precise username and platform");
@@ -168,7 +168,7 @@ class FortniteApi {
             this.lookup(username)
                 .then(data => {
                     request({
-                        url: EndPoint.statsBR(data.id),
+                        url: EndPoint.statsBR(data.id, timeWindow),
                         headers: {
                             Authorization: "bearer " + this.access_token
                         },
@@ -199,7 +199,7 @@ class FortniteApi {
         });
     }
 
-    getStatsBR(username, platform) {
+    getStatsBR(username, platform, timeWindow) {
         return new Promise((resolve, reject) => {
             if (!username || !platform) {
                 reject("Please precise username and platform");
@@ -212,7 +212,7 @@ class FortniteApi {
             this.lookup(username)
                 .then(data => {
                     request({
-                        url: EndPoint.statsBR(data.id),
+                        url: EndPoint.statsBR(data.id, timeWindow),
                         headers: {
                             Authorization: "bearer " + this.access_token
                         },
@@ -250,7 +250,7 @@ class FortniteApi {
         });
     }
 
-    getStatsBRFromID(id, platform) {
+    getStatsBRFromID(id, platform, timeWindow) {
         return new Promise((resolve, reject) => {
             if (!id || !platform) {
                 reject("Please precise id and platform");
@@ -261,7 +261,7 @@ class FortniteApi {
             }
 
             request({
-                url: EndPoint.statsBR(id),
+                url: EndPoint.statsBR(id, timeWindow),
                 headers: {
                     Authorization: "bearer " + this.access_token
                 },
