@@ -226,13 +226,13 @@ class FortniteApi {
                                     platform.toLowerCase() || "pc"
                                 )
                             ) {
-                                Stats.convert(
+                                let resultStats = Stats.convert(
                                     stats,
                                     data,
                                     platform.toLowerCase()
-                                ).then(resultStats => {
-                                    resolve(resultStats);
-                                });
+                                );
+                                resolve(resultStats);
+
                             } else {
                                 reject(
                                     "Impossible to fetch User. User not found on this platform"
@@ -275,13 +275,12 @@ class FortniteApi {
                             platform.toLowerCase() || "pc"
                         )
                     ) {
-                        Stats.convert(
+                        let resultStats = Stats.convert(
                             stats,
                             { id: id, username: "No Username" },
                             platform.toLowerCase()
-                        ).then(resultStats => {
-                            resolve(resultStats);
-                        });
+                        );
+                        resolve(resultStats);
                     } else {
                         reject(
                             "Impossible to fetch User. User not found on this platform"
