@@ -19,11 +19,11 @@ module.exports = {
             encodeURI(username)
         );
     },
-    statsBR: accountId => {
+    statsBR: (accountId, timeWindow) => {
         return (
             "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/stats/accountId/" +
             accountId +
-            "/bulk/window/alltime"
+            "/bulk/window/" + (timeWindow || "alltime")
         );
     },
     statsPVE: accountId => {
