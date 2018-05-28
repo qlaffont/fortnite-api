@@ -37,7 +37,7 @@ module.exports = {
         return result;
     },
     convert: (stats, user, platform) => {
-        return new Promise(resolve => {
+
             let result = {
                 group: {
                     solo: {
@@ -309,7 +309,7 @@ module.exports = {
                 result.group.duo["score"] +
                 result.group.squad["score"];
 
-            resolve(result);
-        });
+            return result;
+
     }
 };
