@@ -158,7 +158,7 @@ class FortniteApi {
     lookupById(id) {
         return new Promise((resolve, reject) => {
             request({
-                url: EndPoint.displayNameFromIds(id),
+                url: EndPoint.displayNameFromId(id),
                 headers: {
                     Authorization: "bearer " + this.access_token
                 },
