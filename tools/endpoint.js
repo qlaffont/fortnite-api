@@ -47,5 +47,11 @@ module.exports = {
             "https://account-public-service-prod03.ol.epicgames.com/account/api/public/account?accountId=" +
             ids.join("&accountId=")
         );
+    },
+    displayNameFromId: id => {
+        return (
+            "https://account-public-service-prod03.ol.epicgames.com/account/api/public/account?accountId=" +
+            id
+        );
     }
 };

@@ -155,6 +155,25 @@ class FortniteApi {
         });
     }
 
+    lookupById(id) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: EndPoint.displayNameFromIds(id),
+                headers: {
+                    Authorization: "bearer " + this.access_token
+                },
+                method: "GET",
+                json: true
+            })
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
     checkPlayer(username, platform, timeWindow) {
         return new Promise((resolve, reject) => {
             if (!username || !platform) {
@@ -259,37 +278,40 @@ class FortniteApi {
                 reject("Please precise a good platform: ps4/xb1/pc");
             }
 
-            request({
-                url: EndPoint.statsBR(id, timeWindow),
-                headers: {
-                    Authorization: "bearer " + this.access_token
-                },
-                method: "GET",
-                json: true
-            })
-                .then(stats => {
-                    if (
-                        Stats.checkPlatform(
-                            stats,
-                            platform.toLowerCase() || "pc"
-                        )
-                    ) {
-                        let resultStats = Stats.convert(
-                            stats,
-                            { id: id, username: "No Username" },
-                            platform.toLowerCase()
-                        );
-                        resolve(resultStats);
-                    } else {
-                        reject(
-                            "Impossible to fetch User. User not found on this platform"
-                        );
-                    }
-                })
-                .catch(err => {
-                    this.debug && console.log(err);
-                    reject("Impossible to fetch User.");
-                });
+            this.lookupById(id)
+                .then(data => {
+                    request({
+                        url: EndPoint.statsBR(data[0].id, timeWindow),
+                        headers: {
+                            Authorization: "bearer " + this.access_token
+                        },
+                        method: "GET",
+                        json: true
+                    })
+                        .then(stats => {
+                            if (
+                                Stats.checkPlatform(
+                                    stats,
+                                    platform.toLowerCase() || "pc"
+                                )
+                            ) {
+                                let resultStats = Stats.convert(
+                                    stats,
+                                    data[0],
+                                    platform.toLowerCase()
+                                );
+                                resolve(resultStats);
+                            } else {
+                                reject(
+                                    "Impossible to fetch User. User not found on this platform"
+                                );
+                            }
+                        })
+                    })
+                        .catch(err => {
+                            this.debug && console.log(err);
+                            reject("Impossible to fetch User.");
+                        });
         });
     }
 
