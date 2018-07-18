@@ -27,7 +27,7 @@ class FortniteApi {
             );
         }
 
-        setInterval(() => {
+        this.intervalCheckToken = setInterval(() => {
             this.checkToken();
         }, 1000);
     }
@@ -130,8 +130,8 @@ class FortniteApi {
                             reject(err);
                         });
                 })
-                .catch(() => {
-                    reject("Please enter good token");
+                .catch(err => {
+                    reject({ message: "Please enter good token", err: err });
                 });
         });
     }
@@ -287,31 +287,30 @@ class FortniteApi {
                         },
                         method: "GET",
                         json: true
-                    })
-                        .then(stats => {
-                            if (
-                                Stats.checkPlatform(
-                                    stats,
-                                    platform.toLowerCase() || "pc"
-                                )
-                            ) {
-                                let resultStats = Stats.convert(
-                                    stats,
-                                    data[0],
-                                    platform.toLowerCase()
-                                );
-                                resolve(resultStats);
-                            } else {
-                                reject(
-                                    "Impossible to fetch User. User not found on this platform"
-                                );
-                            }
-                        })
-                    })
-                        .catch(err => {
-                            this.debug && console.log(err);
-                            reject("Impossible to fetch User.");
-                        });
+                    }).then(stats => {
+                        if (
+                            Stats.checkPlatform(
+                                stats,
+                                platform.toLowerCase() || "pc"
+                            )
+                        ) {
+                            let resultStats = Stats.convert(
+                                stats,
+                                data[0],
+                                platform.toLowerCase()
+                            );
+                            resolve(resultStats);
+                        } else {
+                            reject(
+                                "Impossible to fetch User. User not found on this platform"
+                            );
+                        }
+                    });
+                })
+                .catch(err => {
+                    this.debug && console.log(err);
+                    reject("Impossible to fetch User.");
+                });
         });
     }
 
@@ -598,6 +597,16 @@ class FortniteApi {
                     reject();
                 });
         });
+    }
+
+    kill() {
+        this.killSession()
+            .then(() => {
+                clearInterval(this.intervalCheckToken);
+            })
+            .catch(() => {
+                console.log("Impossible to kill the API. Please Try Again !");
+            });
     }
 }
 
