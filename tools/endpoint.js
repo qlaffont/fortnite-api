@@ -23,7 +23,8 @@ module.exports = {
         return (
             "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/stats/accountId/" +
             accountId +
-            "/bulk/window/" + (timeWindow || "alltime")
+            "/bulk/window/" +
+            (timeWindow || "alltime")
         );
     },
     statsPVE: accountId => {
@@ -40,7 +41,7 @@ module.exports = {
         );
     },
     leaderBoardScore: (plat, groupType) => {
-        return `https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/leaderboards/type/global/stat/br_placetop1_${plat}_m0${groupType}/window/weekly?ownertype=1&itemsPerPage=50`;
+        return `https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/leaderboards/type/global/stat/br_placetop1_${plat}_m0${groupType}/window/weekly?ownertype=1&pageNumber=0&itemsPerPage=50`;
     },
     displayNameFromIds: ids => {
         return (
