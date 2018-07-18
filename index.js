@@ -26,10 +26,6 @@ class FortniteApi {
                 "Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]"
             );
         }
-
-        this.intervalCheckToken = setInterval(() => {
-            this.checkToken();
-        }, 1000);
     }
 
     checkToken() {
@@ -120,6 +116,12 @@ class FortniteApi {
                                     this.expires_at = data.expires_at;
                                     this.access_token = data.access_token;
                                     this.refresh_token = data.refresh_token;
+                                    this.intervalCheckToken = setInterval(
+                                        () => {
+                                            this.checkToken();
+                                        },
+                                        1000
+                                    );
                                     resolve(this.expires_at);
                                 })
                                 .catch(err => {
@@ -600,13 +602,16 @@ class FortniteApi {
     }
 
     kill() {
-        this.killSession()
-            .then(() => {
-                clearInterval(this.intervalCheckToken);
-            })
-            .catch(() => {
-                console.log("Impossible to kill the API. Please Try Again !");
-            });
+        return new Promise((resolve, reject) => {
+            this.killSession()
+                .then(() => {
+                    clearInterval(this.intervalCheckToken);
+                    resolve();
+                })
+                .catch(() => {
+                    reject("Impossible to kill the API. Please Try Again !");
+                });
+        });
     }
 }
 
