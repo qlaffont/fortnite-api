@@ -111,7 +111,7 @@ class FortniteApi {
                                     grant_type: "exchange_code",
                                     exchange_code: this.code,
                                     includePerms: true,
-                                    token_type: "egl"
+                                    token_type: "eg1"
                                 },
                                 method: "POST",
                                 json: true
