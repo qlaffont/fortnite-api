@@ -12,7 +12,7 @@ let test = new Fortnite(
 
 test.login().then(() => {
     test
-        .getScoreLeaderBoard("pc", Fortnite.SOLO)
+        .getStatsBR("Mirardes", "pc", "weekly")
         .then(leaderboard => {
             console.log(leaderboard);
         })

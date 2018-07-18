@@ -27,7 +27,7 @@ class FortniteApi {
             );
         }
 
-        setInterval(() => {
+        this.intervalCheckToken = setInterval(() => {
             this.checkToken();
         }, 1000);
     }
@@ -111,7 +111,7 @@ class FortniteApi {
                                     grant_type: "exchange_code",
                                     exchange_code: this.code,
                                     includePerms: true,
-                                    token_type: "egl"
+                                    token_type: "eg1"
                                 },
                                 method: "POST",
                                 json: true
@@ -130,8 +130,8 @@ class FortniteApi {
                             reject(err);
                         });
                 })
-                .catch(() => {
-                    reject("Please enter good token");
+                .catch(err => {
+                    reject({ message: "Please enter good token", err: err });
                 });
         });
     }
@@ -155,7 +155,26 @@ class FortniteApi {
         });
     }
 
-    checkPlayer(username, platform) {
+    lookupById(id) {
+        return new Promise((resolve, reject) => {
+            request({
+                url: EndPoint.displayNameFromId(id),
+                headers: {
+                    Authorization: "bearer " + this.access_token
+                },
+                method: "GET",
+                json: true
+            })
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+    checkPlayer(username, platform, timeWindow) {
         return new Promise((resolve, reject) => {
             if (!username || !platform) {
                 reject("Please precise username and platform");
@@ -168,7 +187,7 @@ class FortniteApi {
             this.lookup(username)
                 .then(data => {
                     request({
-                        url: EndPoint.statsBR(data.id),
+                        url: EndPoint.statsBR(data.id, timeWindow),
                         headers: {
                             Authorization: "bearer " + this.access_token
                         },
@@ -199,7 +218,7 @@ class FortniteApi {
         });
     }
 
-    getStatsBR(username, platform) {
+    getStatsBR(username, platform, timeWindow) {
         return new Promise((resolve, reject) => {
             if (!username || !platform) {
                 reject("Please precise username and platform");
@@ -212,7 +231,7 @@ class FortniteApi {
             this.lookup(username)
                 .then(data => {
                     request({
-                        url: EndPoint.statsBR(data.id),
+                        url: EndPoint.statsBR(data.id, timeWindow),
                         headers: {
                             Authorization: "bearer " + this.access_token
                         },
@@ -226,13 +245,12 @@ class FortniteApi {
                                     platform.toLowerCase() || "pc"
                                 )
                             ) {
-                                Stats.convert(
+                                let resultStats = Stats.convert(
                                     stats,
                                     data,
                                     platform.toLowerCase()
-                                ).then(resultStats => {
-                                    resolve(resultStats);
-                                });
+                                );
+                                resolve(resultStats);
                             } else {
                                 reject(
                                     "Impossible to fetch User. User not found on this platform"
@@ -250,7 +268,7 @@ class FortniteApi {
         });
     }
 
-    getStatsBRFromID(id, platform) {
+    getStatsBRFromID(id, platform, timeWindow) {
         return new Promise((resolve, reject) => {
             if (!id || !platform) {
                 reject("Please precise id and platform");
@@ -260,33 +278,34 @@ class FortniteApi {
                 reject("Please precise a good platform: ps4/xb1/pc");
             }
 
-            request({
-                url: EndPoint.statsBR(id),
-                headers: {
-                    Authorization: "bearer " + this.access_token
-                },
-                method: "GET",
-                json: true
-            })
-                .then(stats => {
-                    if (
-                        Stats.checkPlatform(
-                            stats,
-                            platform.toLowerCase() || "pc"
-                        )
-                    ) {
-                        Stats.convert(
-                            stats,
-                            { id: id, username: "No Username" },
-                            platform.toLowerCase()
-                        ).then(resultStats => {
+            this.lookupById(id)
+                .then(data => {
+                    request({
+                        url: EndPoint.statsBR(data[0].id, timeWindow),
+                        headers: {
+                            Authorization: "bearer " + this.access_token
+                        },
+                        method: "GET",
+                        json: true
+                    }).then(stats => {
+                        if (
+                            Stats.checkPlatform(
+                                stats,
+                                platform.toLowerCase() || "pc"
+                            )
+                        ) {
+                            let resultStats = Stats.convert(
+                                stats,
+                                data[0],
+                                platform.toLowerCase()
+                            );
                             resolve(resultStats);
-                        });
-                    } else {
-                        reject(
-                            "Impossible to fetch User. User not found on this platform"
-                        );
-                    }
+                        } else {
+                            reject(
+                                "Impossible to fetch User. User not found on this platform"
+                            );
+                        }
+                    });
                 })
                 .catch(err => {
                     this.debug && console.log(err);
@@ -453,59 +472,79 @@ class FortniteApi {
         });
     }
 
+    static get SOLO() {
+        return "_p2";
+    }
+    static get DUO() {
+        return "_p10";
+    }
+    static get SQUAD() {
+        return "_p9";
+    }
 
-    static get SOLO() { return "_p2" }
-    static get DUO() { return "_p10" }
-    static get SQUAD() { return "_p9" }
-
-    getScoreLeaderBoard(platform,type) {
+    getScoreLeaderBoard(platform, type) {
         return new Promise((resolve, reject) => {
             if (!(platform == "pc" || platform == "ps4" || platform == "xb1")) {
-                reject("Please precise a good platform: ps4/xb1/pc")
+                reject("Please precise a good platform: ps4/xb1/pc");
             }
 
-            if(!(type == this.constructor.SOLO || type == this.constructor.DUO || type == this.constructor.SQUAD)) {
-                reject("Please precise a good type FortniteApi.SOLO/FortniteApi.DUO/FortniteApi.SQUAD")
+            if (
+                !(
+                    type == this.constructor.SOLO ||
+                    type == this.constructor.DUO ||
+                    type == this.constructor.SQUAD
+                )
+            ) {
+                reject(
+                    "Please precise a good type FortniteApi.SOLO/FortniteApi.DUO/FortniteApi.SQUAD"
+                );
             }
 
             request({
-                url: EndPoint.leaderBoardScore(platform,type),
+                url: EndPoint.leaderBoardScore(platform, type),
                 headers: {
                     Authorization: "bearer " + this.access_token
                 },
                 method: "POST",
                 json: true
-            }).then(leaderboard => {
-                leaderboard = leaderboard.entries
+            })
+                .then(leaderboard => {
+                    leaderboard = leaderboard.entries;
 
-                leaderboard.forEach(i => {
-                    i.accountId = i.accountId.replace(/-/g,'')
-                })
-
-                request({
-                    url: EndPoint.displayNameFromIds(leaderboard.map(i => i.accountId)),
-                    headers: {
-                        Authorization: "bearer " + this.access_token
-                    },
-                    method: "GET",
-                    json: true
-                }).then(displayNames => {
                     leaderboard.forEach(i => {
-                        const account = displayNames.find(ii => ii.id === i.accountId);
-                        // for some reason not all the accounts are returned
-                        i.displayName = account ? account.displayName : '';
+                        i.accountId = i.accountId.replace(/-/g, "");
                     });
-                    resolve(leaderboard);
+
+                    request({
+                        url: EndPoint.displayNameFromIds(
+                            leaderboard.map(i => i.accountId)
+                        ),
+                        headers: {
+                            Authorization: "bearer " + this.access_token
+                        },
+                        method: "GET",
+                        json: true
+                    })
+                        .then(displayNames => {
+                            leaderboard.forEach(i => {
+                                const account = displayNames.find(
+                                    ii => ii.id === i.accountId
+                                );
+                                // for some reason not all the accounts are returned
+                                i.displayName = account
+                                    ? account.displayName
+                                    : "";
+                            });
+                            resolve(leaderboard);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
                 })
                 .catch(err => {
-                    reject(err)
-                })
-
-            })
-            .catch(err => {
-                reject(err)
-            })
-        })
+                    reject(err);
+                });
+        });
     }
     //@MENTION : Thanks to y3n help !
     //No working anymore
@@ -558,6 +597,16 @@ class FortniteApi {
                     reject();
                 });
         });
+    }
+
+    kill() {
+        this.killSession()
+            .then(() => {
+                clearInterval(this.intervalCheckToken);
+            })
+            .catch(() => {
+                console.log("Impossible to kill the API. Please Try Again !");
+            });
     }
 }
 
