@@ -508,7 +508,8 @@ class FortniteApi {
                     Authorization: "bearer " + this.access_token
                 },
                 method: "POST",
-                json: true
+                json: true,
+                body: []
             })
                 .then(leaderboard => {
                     leaderboard = leaderboard.entries;
