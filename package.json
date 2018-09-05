@@ -1,23 +1,23 @@
 {
-    "name": "fortnite-api",
-    "version": "2.13.0",
-    "description": "Fortnite API",
-    "main": "index.js",
-    "scripts": {
-        "test": "node test.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/qlaffont/fortnite-api"
-    },
-    "author": "Quentin Laffont",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Jake-Ruston/fortnite/issues"
-    },
-    "homepage": "https://github.com/Jake-Ruston/fortnite#readme",
-    "dependencies": {
-        "request": "^2.85.0",
-        "request-promise": "^4.2.2"
-    }
+  "name": "fortnite-api",
+  "version": "2.13.1",
+  "description": "Fortnite API",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qlaffont/fortnite-api"
+  },
+  "author": "Quentin Laffont",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jake-Ruston/fortnite/issues"
+  },
+  "homepage": "https://github.com/Jake-Ruston/fortnite#readme",
+  "dependencies": {
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
+  }
 }
