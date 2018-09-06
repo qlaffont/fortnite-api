@@ -132,7 +132,7 @@ class FortniteApi {
     });
   }
 
-  getChallenges() {
+  getLoggedInProfile() {
     return new Promise((resolve, reject) => {
       request({
         url: EndPoint.challenges(this.account_id),
