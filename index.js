@@ -1,6 +1,7 @@
 const request = require("request-promise");
 const EndPoint = require("./tools/endpoint");
 const Stats = require("./tools/stats");
+const quests = require("./data/quests");
 
 class FortniteApi {
   constructor(credentials, options) {
@@ -108,6 +109,7 @@ class FortniteApi {
                 json: true
               })
                 .then(data => {
+                  this.account_id = data.account_id;
                   this.expires_at = data.expires_at;
                   this.access_token = data.access_token;
                   this.refresh_token = data.refresh_token;
@@ -126,6 +128,169 @@ class FortniteApi {
         })
         .catch(err => {
           reject({ message: "Please enter good token", err: err });
+        });
+    });
+  }
+
+  getChallenges() {
+    return new Promise((resolve, reject) => {
+      request({
+        url: EndPoint.challenges(this.account_id),
+        headers: {
+          Authorization: "bearer " + this.access_token
+        },
+        method: "POST",
+        body: {},
+        json: true
+      })
+        .then(({ profileChanges }) => {
+          const {
+            items,
+            stats: {
+              attributes: {
+                season_match_boost: matchBoost,
+                level,
+                xp: exp,
+                book_level: tier,
+                book_xp: tierExp,
+                book_purchased: battlePassPurchased,
+                season_friend_match_boost: friendBoost,
+                lifetime_wins: victoryCount
+              }
+            }
+          } = profileChanges[0].profile;
+          const challenges = Object.values(items)
+            .filter(item => item.templateId.includes("ChallengeBundleSchedule"))
+            .map(({ templateId, attributes }) => ({
+              name: templateId
+                .replace(
+                  "ChallengeBundleSchedule:season5_progressivea_schedule",
+                  "Drift Challenges"
+                )
+                .replace(
+                  "ChallengeBundleSchedule:season5_paid_schedule",
+                  "Road Trip Challenges"
+                )
+                .replace(
+                  "ChallengeBundleSchedule:season5_free_schedule",
+                  "Weekly Challenges"
+                ),
+              bundles: attributes.granted_bundles
+                .filter(challenge => challenge)
+                .map(id => {
+                  const {
+                    templateId,
+                    attributes: {
+                      num_granted_bundle_quests: count,
+                      num_quests_completed: completedCount,
+                      grantedquestinstanceids
+                    }
+                  } = items[id];
+
+                  let name = templateId
+                    .replace(
+                      "ChallengeBundle:questbundle_s5_progressivea",
+                      "Drift"
+                    )
+                    .replace(
+                      "ChallengeBundle:questbundle_s5_cumulative",
+                      "Road Trip"
+                    );
+
+                  // This is bc weeks go to 10
+                  const week = parseInt(
+                    templateId.replace(
+                      "ChallengeBundle:questbundle_s5_week_",
+                      ""
+                    )
+                  );
+
+                  let reward = 5000;
+
+                  // Non-weekly challenges don't have only numbers in their name
+                  if (!isNaN(week)) {
+                    name = `Week ${week}`;
+                    if (week > 5) {
+                      reward = week * 1000;
+                    }
+                  }
+
+                  const bundle = {
+                    name,
+                    week,
+                    count,
+                    completedCount,
+                    complete: count === completedCount,
+                    reward,
+                    challenges: grantedquestinstanceids.map(id => {
+                      // FIXME: staged challenges should be collapse to a single challenge showing the latest completed
+
+                      const {
+                        templateId,
+                        attributes,
+                        attributes: { quest_state }
+                      } = items[id];
+                      const complete = quest_state === "Claimed";
+                      const quest = quests[templateId] || {};
+                      const prefix = quest.countPrefix || "";
+
+                      let completedCount = attributes[prefix];
+
+                      if (!completedCount) {
+                        completedCount = complete ? 1 : 0;
+                      }
+
+                      if (prefix.length > 0 && prefix.slice(-1) === "_") {
+                        const keys = Object.keys(attributes).filter(attr =>
+                          attr.includes(prefix)
+                        );
+
+                        const count = keys
+                          .map(key => attributes[key])
+                          .reduce((a, b) => a + b);
+
+                        completedCount = count;
+                      }
+
+                      // this removes the countPrefix prop, since it's interal only
+                      // lol, what even are classes
+                      delete quest.countPrefix;
+
+                      return {
+                        complete,
+                        completedCount,
+                        ...quest
+                      };
+                    })
+                  };
+
+                  // this isn't a week
+                  // delete the week & rewards key
+                  if (isNaN(week)) {
+                    delete bundle.week;
+                    delete bundle.reward;
+                  }
+
+                  return bundle;
+                })
+            }));
+
+          resolve({
+            battlePassPurchased,
+            friendBoost,
+            victoryCount,
+            matchBoost,
+            level,
+            tier,
+            tierExp,
+            exp,
+            freeSeasonChallenges: challenges[0],
+            paidSeasonChallenges: challenges[1],
+            weeklyChallenges: challenges[2]
+          });
+        })
+        .catch(err => {
+          reject(err);
         });
     });
   }
