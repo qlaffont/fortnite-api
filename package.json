@@ -1,6 +1,6 @@
 {
   "name": "fortnite-api",
-  "version": "2.14.1",
+  "version": "2.14.2",
   "description": "Fortnite API",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Jake-Ruston/fortnite#readme",
   "dependencies": {
-    "request": "^2.85.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2"
   }
 }
