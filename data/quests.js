@@ -395,7 +395,7 @@ module.exports = {
     free: false
   },
   "Quest:quest_br_interact_chests_questchain_01_e": {
-    name: "Stage 1: Search a Chest in Paradise Palms",
+    name: "Final Stage: Search a Chest in Paradise Palms",
     reward: 1,
     count: 1,
     hard: false,
@@ -474,18 +474,22 @@ module.exports = {
       "completion_battlepass_killingblow_athena_player_questchain_greasygrove"
   },
   "Quest:quest_br_eliminate_questchain_01_b": {
-    name: "Stage 2: Eliminate an opponent",
+    name: "Stage 2: Eliminate an opponent in Lonely Lodge",
     reward: 3,
     count: 1,
     hard: true,
-    free: false
+    free: false,
+    countPrefix:
+      "completion_battlepass_killingblow_athena_player_questchain_lonelylodge"
   },
   "Quest:quest_br_eliminate_questchain_01_c": {
-    name: "Stage 3: Eliminate an opponent",
+    name: "Final Stage: Eliminate an opponent in Fatal Fields",
     reward: 3,
     count: 1,
     hard: true,
-    free: false
+    free: false,
+    countPrefix:
+      "completion_battlepass_killingblow_athena_player_questchain_fatalfields"
   },
   "Quest:quest_br_s5_gain_seasonxp_progressivea_01": {
     name: "Gain 10,000 XP",
