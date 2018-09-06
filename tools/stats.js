@@ -1,7 +1,7 @@
 function timeConvert(time) {
     let result = "",
         d = parseInt(time / 24 / 60),
-        h = parseInt((time / 60) % 24),
+        h = parseInt(time / 60 % 24),
         m = parseInt(time % 60);
     if (d > 0) result += d + "d "; //nb days
     if (h > 0) result += h + "h "; //nb hours
@@ -156,6 +156,8 @@ module.exports = {
                 //minutes played
                 totalTime = totalTime + elem.value;
                 type = "timePlayed";
+            } else if (key.indexOf("lastmodified_" + platform) !== -1) {
+                type = "lastModified";
             }
 
             if (key.indexOf("_p2") !== -1) mode = "solo";
