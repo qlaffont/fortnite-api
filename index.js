@@ -174,6 +174,10 @@ class FortniteApi {
                 .replace(
                   "ChallengeBundleSchedule:season5_free_schedule",
                   "Weekly Challenges"
+                )
+                .replace(
+                  "ChallengeBundleSchedule:schedule_ltm_heist",
+                  "High Stakes Challenges"
                 ),
               bundles: attributes.granted_bundles
                 .filter(challenge => challenge)
@@ -195,6 +199,10 @@ class FortniteApi {
                     .replace(
                       "ChallengeBundle:questbundle_s5_cumulative",
                       "Road Trip"
+                    )
+                    .replace(
+                      "ChallengeBundle:questbundle_ltm_heist",
+                      "High Stakes"
                     );
 
                   // This is bc weeks go to 10
@@ -232,28 +240,13 @@ class FortniteApi {
                       } = items[id];
                       const complete = quest_state === "Claimed";
                       const quest = quests[templateId] || {};
-                      const prefix = quest.countPrefix || "";
+                      const backendNames = quest.backendNames;
 
-                      let completedCount = attributes[prefix];
+                      const completedCount = backendNames
+                        .map(name => attributes[name])
+                        .filter(i => i)
+                        .reduce((a, b) => a + b, 0);
 
-                      if (!completedCount) {
-                        completedCount = complete ? 1 : 0;
-                      }
-
-                      if (prefix.length > 0 && prefix.slice(-1) === "_") {
-                        const keys = Object.keys(attributes).filter(attr =>
-                          attr.includes(prefix)
-                        );
-
-                        const count = keys
-                          .map(key => attributes[key])
-                          .reduce((a, b) => a + b);
-
-                        completedCount = count;
-                      }
-
-                      // this removes the countPrefix prop, since it's interal only
-                      // lol, what even are classes
                       delete quest.countPrefix;
 
                       return {
@@ -284,9 +277,7 @@ class FortniteApi {
             tier,
             tierExp,
             exp,
-            freeSeasonChallenges: challenges[0],
-            paidSeasonChallenges: challenges[1],
-            weeklyChallenges: challenges[2]
+            challenges
           });
         })
         .catch(err => {
