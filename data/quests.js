@@ -910,6 +910,9 @@ module.exports = {
   "Quest:quest_br_damage_explosiveweapon": {
     name: "Deal damage with Explosive Weapons to opponents",
     count: 500,
+    free: true,
+    hard: false,
+    reward: 5,
     backendNames: ["completion_battlepass_damage_athena_player_explosives"]
   },
   "Quest:quest_br_damage_minigun": {
@@ -982,6 +985,9 @@ module.exports = {
   "Quest:quest_br_dance_scavengerhunt_danceoff": {
     name: "Dance Off with another player near Loot Lake",
     count: 1,
+    free: false,
+    hard: false,
+    reward: 5,
     backendNames: ["completion_battlepass_dance_athena_scavengerhunt_platforms"]
   },
   "Quest:quest_br_dance_scavengerhunt_forbidden": {
@@ -1108,6 +1114,9 @@ module.exports = {
   "Quest:quest_br_eliminate_location_tomatotemple": {
     name: "Eliminate opponents in Tomato Temple",
     count: 3,
+    free: false,
+    hard: true,
+    reward: 10,
     backendNames: [
       "completion_battlepass_killingblow_athena_player_tomatotemple"
     ]
@@ -1165,6 +1174,9 @@ module.exports = {
   "Quest:quest_br_eliminate_weapon_assaultrifle": {
     name: "Assault Rifle Eliminations",
     count: 5,
+    free: false,
+    hard: true,
+    reward: 10,
     backendNames: ["completion_battlepass_killingblow_athena_player_assault"]
   },
   "Quest:quest_br_eliminate_weapon_crossbow": {
@@ -1263,6 +1275,9 @@ module.exports = {
   "Quest:quest_br_interact_chests_location_pleasantpark": {
     name: "Search Chests in Pleasant Park",
     count: 7,
+    free: false,
+    hard: false,
+    reward: 5,
     backendNames: [
       "completion_battlepass_interact_athena_treasurechest_pleasantpark"
     ]
@@ -1476,6 +1491,9 @@ module.exports = {
   "Quest:quest_br_interact_scavengerhunt_treasuremap_05": {
     name: "Follow the treasure map found in Shifty Shafts",
     count: 1,
+    free: true,
+    hard: true,
+    reward: 10,
     backendNames: ["completion_battlepass_interact_athena_hidden_star_09"]
   },
   "Quest:quest_br_interact_scavengerhunt_triangulate_05": {
@@ -1792,6 +1810,9 @@ module.exports = {
   "Quest:quest_br_use_atk": {
     name: "Use an ATK (All Terrain Kart)",
     count: 1,
+    reward: 5,
+    free: true,
+    hard: false,
     backendNames: ["completion_battlepass_athena_use_golfcart"]
   },
   "Quest:quest_br_use_bush": {
