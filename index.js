@@ -132,6 +132,35 @@ class FortniteApi {
     });
   }
 
+  getCheatSheets() {
+    return new Promise((resolve, reject) => {
+      request({
+        url: "https://www.reddit.com/user/thesquatingdog/submitted.json",
+        json: true
+      })
+        .then(({ data: { children } }) => {
+          const maps = children
+            .map(({ data }) => data)
+            .filter(({ title }) => title.includes("Season 5, Week "))
+            .filter((obj, pos, arr) => {
+              return arr.map(mapObj => mapObj.title).indexOf(obj.title) === pos;
+            })
+            .map(({ title, preview: { images } }) => ({
+              title: title.replace(" (All Inclusive Cheat Sheet)", ""),
+              week: parseInt(
+                title
+                  .replace("Season 5, Week ", "")
+                  .replace(" Challenges (All Inclusive Cheat Sheet)", "")
+              ),
+              url: images[0].source.url
+            }))
+            .reverse();
+          resolve(maps);
+        })
+        .catch(e => reject(e));
+    });
+  }
+
   getLoggedInProfile() {
     return new Promise((resolve, reject) => {
       request({
