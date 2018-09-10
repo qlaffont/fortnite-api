@@ -247,7 +247,7 @@ class FortniteApi {
                         .filter(i => i)
                         .reduce((a, b) => a + b, 0);
 
-                      delete quest.countPrefix;
+                      delete quest.backendNames;
 
                       return {
                         complete,
