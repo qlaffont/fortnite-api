@@ -1352,6 +1352,9 @@ module.exports = {
   "Quest:quest_br_interact_chests_questchain_02_a": {
     name: "Stage 1: Search a Chest in Haunted Hills",
     count: 1,
+    free: false,
+    hard: false,
+    reward: 1,
     backendNames: [
       "completion_battlepass_interact_athena_treasurechest_questchain_hauntedhills"
     ]
@@ -1359,6 +1362,9 @@ module.exports = {
   "Quest:quest_br_interact_chests_questchain_02_b": {
     name: "Stage 2: Search a Chest in Shifty Shafts",
     count: 1,
+    free: false,
+    hard: false,
+    reward: 1,
     backendNames: [
       "completion_battlepass_interact_athena_treasurechest_questchain_shiftyshafts"
     ]
@@ -1366,6 +1372,9 @@ module.exports = {
   "Quest:quest_br_interact_chests_questchain_02_c": {
     name: "Stage 3: Search a Chest in Lazy Links",
     count: 1,
+    free: false,
+    hard: false,
+    reward: 1,
     backendNames: [
       "completion_battlepass_interact_athena_treasurechest_questchain_lazylinks"
     ]
@@ -1373,6 +1382,9 @@ module.exports = {
   "Quest:quest_br_interact_chests_questchain_02_d": {
     name: "Stage 4: Search a Chest in Tilted Towers",
     count: 1,
+    free: false,
+    hard: false,
+    reward: 1,
     backendNames: [
       "completion_battlepass_interact_athena_treasurechest_questchain_tiltedtowers"
     ]
@@ -1380,6 +1392,9 @@ module.exports = {
   "Quest:quest_br_interact_chests_questchain_02_e": {
     name: "Final Stage: Search a Chest in Risky Reels",
     count: 1,
+    free: false,
+    hard: false,
+    reward: 1,
     backendNames: [
       "completion_battlepass_interact_athena_treasurechest_questchain_riskyreels"
     ]
@@ -1769,6 +1784,9 @@ module.exports = {
   "Quest:quest_br_score_stylepoints_vehicle": {
     name: "Get Trick Points in a Shopping Cart or ATK",
     count: 150000,
+    free: true,
+    hard: false,
+    reward: 5,
     backendNames: ["completion_battlepass_athena_score_stylepoints_vehicle"]
   },
   "Quest:quest_br_shoot_jumpingfish": {
@@ -1930,6 +1948,9 @@ module.exports = {
   "Quest:quest_br_visit_stoneheads": {
     name: "Visit different Stone Heads",
     count: 7,
+    free: false,
+    hard: false,
+    reward: 5,
     backendNames: [
       "completion_battlepass_visit_athena_location_stonehead_01",
       "completion_battlepass_visit_athena_location_stonehead_02",
