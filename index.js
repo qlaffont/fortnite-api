@@ -1,7 +1,35 @@
-const request = require("request-promise");
+const fetch = require("node-fetch");
 const EndPoint = require("./tools/endpoint");
 const Stats = require("./tools/stats");
 const quests = require("./data/quests");
+
+const request = ({ url, form: body, headers, method }) => {
+  if (method === "POST") {
+    return fetch(url, {
+      body: body
+        ? Object.entries(body)
+            .map(pair => pair.map(encodeURIComponent).join("="))
+            .join("&")
+        : "{}",
+      headers: {
+        ...headers,
+        "Content-Type": body
+          ? "application/x-www-form-urlencoded"
+          : "application/json"
+      },
+      method
+    }).then(data => {
+      return data.json();
+    });
+  } else {
+    return fetch(url, {
+      headers: {
+        ...headers
+      },
+      method
+    }).then(data => data.json());
+  }
+};
 
 class FortniteApi {
   constructor(credentials, options) {
