@@ -664,27 +664,27 @@ module.exports = {
   "Quest:quest_br_s5_gain_seasonxp_progressivea_01": {
     name: "Gain 10,000 XP",
     count: 10000,
-    backendNames: []
+    backendNames: ["completion_athena_s5_season_gain_xp_progressive_a_01"]
   },
   "Quest:quest_br_s5_gain_seasonxp_progressivea_02": {
     name: "Gain 25,000 XP",
     count: 25000,
-    backendNames: []
+    backendNames: ["completion_athena_s5_season_gain_xp_progressive_a_02"]
   },
   "Quest:quest_br_s5_gain_seasonxp_progressivea_03": {
     name: "Gain 50,000 XP",
     count: 50000,
-    backendNames: []
+    backendNames: ["completion_athena_s5_season_gain_xp_progressive_a_03"]
   },
   "Quest:quest_br_s5_gain_seasonxp_progressivea_04": {
     name: "Gain 100,000 XP",
     count: 100000,
-    backendNames: []
+    backendNames: ["completion_athena_s5_season_gain_xp_progressive_a_04"]
   },
   "Quest:quest_br_s5_gain_seasonxp_progressivea_05": {
     name: "Gain 200,000 XP",
     count: 200000,
-    backendNames: []
+    backendNames: ["completion_athena_s5_season_gain_xp_progressive_a_05"]
   },
   "Quest:quest_br_s5_cumulative_collecttokens_01": {
     name: "Complete all challenges from any week",
