@@ -20,8 +20,11 @@ $ npm install fortnite-api
 ### INIT
 
 *You can use this default token or capture it (see below)*
+
 "CLIENT LAUNCHER TOKEN" => "MzRhMDJjZjhmNDQxNGUyOWIxNTkyMTg3NmRhMzZmOWE6ZGFhZmJjY2M3Mzc3NDUwMzlkZmZlNTNkOTRmYzc2Y2Y="
+
 "FORTNITE CLIENT TOKEN" => "ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ="
+
 
 To setup this module, you need to have an account on Epic Games. After that you need to get 2 dedicated headers from Fortnite.
 
