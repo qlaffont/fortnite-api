@@ -19,6 +19,7 @@ $ npm install fortnite-api
 
 ### INIT
 
+
 *You can use this default token or capture it (see below).*
 
 "CLIENT LAUNCHER TOKEN" => "MzRhMDJjZjhmNDQxNGUyOWIxNTkyMTg3NmRhMzZmOWE6ZGFhZmJjY2M3Mzc3NDUwMzlkZmZlNTNkOTRmYzc2Y2Y="
