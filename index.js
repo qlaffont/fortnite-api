@@ -345,12 +345,24 @@ class FortniteApi {
             br:
               data.battleroyalenews.news.message ||
               data.battleroyalenews.news.messages,
+            battlepass:
+              data.battlepassmessages.news.message ||
+              data.battlepassmessages.news.messages,
+            stw:
+              data.savetheworldnews.news.message ||
+              data.savetheworldnews.news.messages,
             loginmessage:
               data.loginmessage.loginmessage.message ||
               data.loginmessage.loginmessage.messages,
             survivalmessage:
               data.survivalmessage.overrideablemessage.message ||
-              data.survivalmessage.overrideablemessage.messages
+              data.survivalmessage.overrideablemessage.messages,
+            tournamentinformation:
+              data.tournamentinformation.tournament_info.tournament ||
+              data.tournamentinformation.tournament_info.tournaments,
+            emergencynotice:
+              data.emergencynotice.news.message ||
+              data.emergencynotice.news.messages
           });
         })
         .catch(() => {
