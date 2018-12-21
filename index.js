@@ -28,35 +28,41 @@ class FortniteApi {
     }
   }
 
+refreshToken() {
+  request({
+      url: EndPoint.OAUTH_TOKEN,
+      headers: {
+        Authorization: "basic " + this.credentials[3]
+      },
+      form: {
+        grant_type: "refresh_token",
+        refresh_token: this.refresh_token,
+        includePerms: true
+      },
+      method: "POST",
+      json: true
+    })
+    .then(data => {
+      this.expires_at = data.expires_at;
+      this.access_token = data.access_token;
+      this.refresh_token = data.refresh_token;
+    })
+    .catch(err => {
+      this.debug &&
+        console.log("Error: Fatal Error Impossible to Renew Token");
+      throw new Error(err);
+    });
+  }
+
   checkToken() {
     let actualDate = new Date();
     let expireDate = new Date(new Date(this.expires_at).getTime() - 15 * 60000);
+    console.log(actualDate);
+    console.log(expireDate);
     if (this.access_token && this.expires_at && expireDate < actualDate) {
       this.expires_at = undefined;
       //Refresh Token
-      request({
-        url: EndPoint.OAUTH_TOKEN,
-        headers: {
-          Authorization: "basic " + this.credentials[3]
-        },
-        form: {
-          grant_type: "refresh_token",
-          refresh_token: this.refresh_token,
-          includePerms: true
-        },
-        method: "POST",
-        json: true
-      })
-        .then(data => {
-          this.expires_at = data.expires_at;
-          this.access_token = data.access_token;
-          this.refresh_token = data.refresh_token;
-        })
-        .catch(err => {
-          this.debug &&
-            console.log("Error: Fatal Error Impossible to Renew Token");
-          throw new Error(err);
-        });
+      this.refreshToken();
     }
   }
 
