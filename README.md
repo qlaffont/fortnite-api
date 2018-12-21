@@ -70,6 +70,11 @@ fortniteAPI.login().then(() => {
 
 ---
 
+### TOKEN REFRESH
+The package will refresh automatically when the token will expired. But if you want to force the refresh, you can do it with this command `forniteApi.refreshToken()`.
+
+---
+
 ### METHODS
 
 *   checkPlayer() : `Promise` with `String` Return
