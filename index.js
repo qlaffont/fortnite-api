@@ -5,9 +5,13 @@ const Stats = require("./tools/stats");
 class FortniteApi {
   constructor(credentials, options) {
     this.debug = false;
+    this.autoRefreshToken = true;
     if (options) {
       if ("debug" in options && options.debug !== undefined) {
         this.debug = options.debug;
+      }
+      if ("autoRefreshToken" in options && options.debug !== undefined) {
+        this.autoRefreshToken = options.autoRefreshToken;
       }
     }
     if (
@@ -28,8 +32,8 @@ class FortniteApi {
     }
   }
 
-refreshToken() {
-  request({
+  refreshToken() {
+    request({
       url: EndPoint.OAUTH_TOKEN,
       headers: {
         Authorization: "basic " + this.credentials[3]
@@ -42,23 +46,25 @@ refreshToken() {
       method: "POST",
       json: true
     })
-    .then(data => {
-      this.expires_at = data.expires_at;
-      this.access_token = data.access_token;
-      this.refresh_token = data.refresh_token;
-    })
-    .catch(err => {
-      this.debug &&
+      .then(data => {
+        this.expires_at = data.expires_at;
+        this.access_token = data.access_token;
+        this.refresh_token = data.refresh_token;
+      })
+      .catch(err => {
+        this.debug &&
         console.log("Error: Fatal Error Impossible to Renew Token");
-      throw new Error(err);
-    });
+        throw new Error(err);
+      });
   }
 
   checkToken() {
     let actualDate = new Date();
     let expireDate = new Date(new Date(this.expires_at).getTime() - 15 * 60000);
-    console.log(actualDate);
-    console.log(expireDate);
+    if(this.debug) {
+      console.log(actualDate);
+      console.log(expireDate);
+    }
     if (this.access_token && this.expires_at && expireDate < actualDate) {
       this.expires_at = undefined;
       //Refresh Token
@@ -117,9 +123,11 @@ refreshToken() {
                   this.expires_at = data.expires_at;
                   this.access_token = data.access_token;
                   this.refresh_token = data.refresh_token;
-                  this.intervalCheckToken = setInterval(() => {
-                    this.checkToken();
-                  }, 1000);
+                  if(this.autoRefreshToken) {
+                    this.intervalCheckToken = setInterval(() => {
+                      this.checkToken();
+                    }, 1000);
+                  }
                   resolve(this.expires_at);
                 })
                 .catch(err => {
