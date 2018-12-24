@@ -1,4 +1,4 @@
-const request = require("request-promise");
+const axios = require("axios");
 const EndPoint = require("./tools/endpoint");
 const Stats = require("./tools/stats");
 
@@ -29,7 +29,7 @@ class FortniteApi {
   }
 
 refreshToken() {
-  request({
+  axios({
       url: EndPoint.OAUTH_TOKEN,
       headers: {
         Authorization: "basic " + this.credentials[3]
@@ -57,6 +57,8 @@ refreshToken() {
   checkToken() {
     let actualDate = new Date();
     let expireDate = new Date(new Date(this.expires_at).getTime() - 15 * 60000);
+    console.log(actualDate);
+    console.log(expireDate);
     if (this.access_token && this.expires_at && expireDate < actualDate) {
       this.expires_at = undefined;
       //Refresh Token
@@ -74,20 +76,21 @@ refreshToken() {
       };
 
       // GET TOKEN
-      request({
+      axios({
         url: EndPoint.OAUTH_TOKEN,
         headers: {
-          Authorization: "basic " + this.credentials[2]
+          Authorization: "basic " + this.credentials[2],
+          "Content-Type": "application/x-www-urlencoded"
         },
-        form: tokenConfig,
+        data: tokenConfig,
         method: "POST",
-        json: true
+        responseType: "json"
       })
         .then(data => {
-          console.log(data);
+          console.log("YES");
           this.access_token = data.access_token;
           // Request 2
-          request({
+          axios({
             url: EndPoint.OAUTH_EXCHANGE,
             headers: {
               Authorization: "bearer " + this.access_token
@@ -98,7 +101,7 @@ refreshToken() {
             .then(data => {
               this.code = data.code;
               //Request 3
-              request({
+              axios({
                 url: EndPoint.OAUTH_TOKEN,
                 headers: {
                   Authorization: "basic " + this.credentials[3]
@@ -137,7 +140,7 @@ refreshToken() {
 
   lookup(username) {
     return new Promise((resolve, reject) => {
-      request({
+      axios({
         url: EndPoint.lookup(username),
         headers: {
           Authorization: "bearer " + this.access_token
@@ -156,7 +159,7 @@ refreshToken() {
 
   lookupById(id) {
     return new Promise((resolve, reject) => {
-      request({
+      axios({
         url: EndPoint.displayNameFromId(id),
         headers: {
           Authorization: "bearer " + this.access_token
@@ -185,7 +188,7 @@ refreshToken() {
 
       this.lookup(username)
         .then(data => {
-          request({
+          axios({
             url: EndPoint.statsBR(data.id, timeWindow),
             headers: {
               Authorization: "bearer " + this.access_token
@@ -227,7 +230,7 @@ refreshToken() {
 
       this.lookup(username)
         .then(data => {
-          request({
+          axios({
             url: EndPoint.statsBR(data.id, timeWindow),
             headers: {
               Authorization: "bearer " + this.access_token
@@ -275,7 +278,7 @@ refreshToken() {
 
       this.lookupById(id)
         .then(data => {
-          request({
+          axios({
             url: EndPoint.statsBR(data[0].id, timeWindow),
             headers: {
               Authorization: "bearer " + this.access_token
@@ -336,7 +339,7 @@ refreshToken() {
           headers["Accept-Language"] = "en";
       }
 
-      request({
+      axios({
         url: EndPoint.FortniteNews,
         method: "GET",
         headers: headers,
@@ -378,7 +381,7 @@ refreshToken() {
 
   checkFortniteStatus() {
     return new Promise((resolve, reject) => {
-      request({
+      axios({
         url: EndPoint.FortniteStatus,
         method: "GET",
         headers: {
@@ -415,7 +418,7 @@ refreshToken() {
 
       headers["Authorization"] = "bearer " + this.access_token;
 
-      request({
+      axios({
         url: EndPoint.FortnitePVEInfo,
         method: "GET",
         headers: headers,
@@ -456,7 +459,7 @@ refreshToken() {
 
       headers["Authorization"] = "bearer " + this.access_token;
 
-      request({
+      axios({
         url: EndPoint.FortniteStore,
         method: "GET",
         headers: headers,
@@ -500,7 +503,7 @@ refreshToken() {
         );
       }
 
-      request({
+      axios({
         url: EndPoint.leaderBoardScore(platform, type),
         headers: {
           Authorization: "bearer " + this.access_token
@@ -516,7 +519,7 @@ refreshToken() {
             i.accountId = i.accountId.replace(/-/g, "");
           });
 
-          request({
+          axios({
             url: EndPoint.displayNameFromIds(leaderboard.map(i => i.accountId)),
             headers: {
               Authorization: "bearer " + this.access_token
@@ -547,7 +550,7 @@ refreshToken() {
   //     return new Promise((resolve, reject) => {
   //         this.lookup(username)
   //             .then(data => {
-  //                 request({
+  //                 axios({
   //                     url: EndPoint.statsPVE(data.id),
   //                     headers: {
   //                         Authorization: "bearer " + this.access_token
@@ -576,7 +579,7 @@ refreshToken() {
 
   killSession() {
     return new Promise((resolve, reject) => {
-      request({
+      axios({
         url: EndPoint.killSession(this.access_token),
         headers: {
           Authorization: "bearer " + this.access_token

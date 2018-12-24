@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/Jake-Ruston/fortnite#readme",
   "dependencies": {
-    "request": "^2.85.0",
+    "axios": "^0.18.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2"
   }
 }
