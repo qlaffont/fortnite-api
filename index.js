@@ -57,10 +57,6 @@ refreshToken() {
   checkToken() {
     let actualDate = new Date();
     let expireDate = new Date(new Date(this.expires_at).getTime() - 15 * 60000);
-    if (this.debug) {
-        console.log(actualDate);
-        console.log(expireDate);
-    }
     if (this.access_token && this.expires_at && expireDate < actualDate) {
       this.expires_at = undefined;
       //Refresh Token
