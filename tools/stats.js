@@ -1,4 +1,5 @@
 function timeConvert(time) {
+    return time;
     let result = "",
         d = parseInt(time / 24 / 60),
         h = parseInt(time / 60 % 24),
