@@ -4,7 +4,7 @@
   "description": "Fortnite API",
   "main": "index.js",
   "scripts": {
-    "test": "npx mocha --timeout 5000 test/index.js"
+    "test": "mocha --timeout 5000 test/index.js"
   },
   "repository": {
     "type": "git",
