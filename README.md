@@ -7,7 +7,9 @@ A simple to use module for interacting with Fortnite API. Inspiration from Jake-
 Support:
 You can support me with a donation : [Paypal Donation](https://www.paypal.me/qlaffont)
 
-**⚠ WARNING ⚠** : This library is _only for Node.JS_ application.
+**⚠ INFO ⚠** : This library was develop for Node.JS application (You can use this application on WebBrowser but you need to use Babel + Webpack).
+
+You can submit a pull request to help the project, but all tests need to be OK (And of course, you need to create a test for your modifications) !
 
 ## Install
 
