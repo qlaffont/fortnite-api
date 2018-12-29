@@ -91,7 +91,3 @@ describe('Fornite API Tests', () => {
         });
     });
 });
-
-after(() => {
-    process.exit(0);
-});
