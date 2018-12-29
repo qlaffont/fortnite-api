@@ -1,59 +1,28 @@
-const request = require("request-promise");
-const EndPoint = require("./tools/endpoint");
+const axios = require("axios");
+const qs = require("qs");
+
+const EndPoints = require("./tools/endpoints");
 const Stats = require("./tools/stats");
 
 class FortniteApi {
-  constructor(credentials, options) {
-    this.debug = false;
-    if (options) {
-      if ("debug" in options && options.debug !== undefined) {
-        this.debug = options.debug;
-      }
-    }
+  constructor(credentials) {
     if (
       credentials &&
       credentials.constructor === Array &&
       credentials.length == 4
     ) {
-      this.debug && console.log("Fortnite-API - Credentials Params OK");
       this.credentials = credentials;
+      this.SOLO = "_p2";
+      this.DUO = "_p10";
+      this.SQUAD = "_p9";
     } else {
-      this.debug &&
-        console.log(
-          "Fortnite-API - Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]"
-        );
       throw new Error(
-        "Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token]"
+        "Please give credentials [Email, Password, Client Launcher Token, Client Fortnite Token] (see ReadMe.md)"
       );
     }
   }
 
-refreshToken() {
-  request({
-      url: EndPoint.OAUTH_TOKEN,
-      headers: {
-        Authorization: "basic " + this.credentials[3]
-      },
-      form: {
-        grant_type: "refresh_token",
-        refresh_token: this.refresh_token,
-        includePerms: true
-      },
-      method: "POST",
-      json: true
-    })
-    .then(data => {
-      this.expires_at = data.expires_at;
-      this.access_token = data.access_token;
-      this.refresh_token = data.refresh_token;
-    })
-    .catch(err => {
-      this.debug &&
-        console.log("Error: Fatal Error Impossible to Renew Token");
-      throw new Error(err);
-    });
-  }
-
+  //Check Token Validity (Executed every 5 seconds)
   checkToken() {
     let actualDate = new Date();
     let expireDate = new Date(new Date(this.expires_at).getTime() - 15 * 60000);
@@ -64,249 +33,285 @@ refreshToken() {
     }
   }
 
+  //Force Refresh Token to Epic Games
+  refreshToken() {
+    axios({
+        url: EndPoints.OAUTH_TOKEN,
+        headers: {
+          Authorization: "basic " + this.credentials[3]
+        },
+        data: qs.stringify({
+          grant_type: "refresh_token",
+          refresh_token: this.refresh_token,
+          includePerms: true
+        }),
+        method: "POST",
+        responseType: "json"
+      })
+      .then((data) => {
+        this.expires_at = data.expires_at;
+        this.access_token = data.access_token;
+        this.refresh_token = data.refresh_token;
+      })
+      .catch(() => {
+        throw new Error("Error: Fatal Error Impossible to Renew Token");
+      });
+  }
+
+  //Login to Epic Games API
   login() {
     return new Promise((resolve, reject) => {
-      const tokenConfig = {
-        grant_type: "password",
-        username: this.credentials[0],
-        password: this.credentials[1],
-        includePerms: true
-      };
-
-      // GET TOKEN
-      request({
-        url: EndPoint.OAUTH_TOKEN,
-        headers: {
-          Authorization: "basic " + this.credentials[2]
-        },
-        form: tokenConfig,
-        method: "POST",
-        json: true
-      })
-        .then(data => {
-          this.access_token = data.access_token;
-          // Request 2
-          request({
-            url: EndPoint.OAUTH_EXCHANGE,
-            headers: {
-              Authorization: "bearer " + this.access_token
-            },
-            method: "GET",
-            json: true
-          })
-            .then(data => {
-              this.code = data.code;
-              //Request 3
-              request({
-                url: EndPoint.OAUTH_TOKEN,
-                headers: {
-                  Authorization: "basic " + this.credentials[3]
-                },
-                form: {
-                  grant_type: "exchange_code",
-                  exchange_code: this.code,
-                  includePerms: true,
-                  token_type: "eg1"
-                },
-                method: "POST",
-                json: true
-              })
-                .then(data => {
-                  this.expires_at = data.expires_at;
-                  this.access_token = data.access_token;
-                  this.refresh_token = data.refresh_token;
+      axios({
+          url: EndPoints.OAUTH_TOKEN,
+          headers: {
+            "Authorization": "basic " + this.credentials[2],
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          data: qs.stringify({
+            grant_type: "password",
+            username: this.credentials[0],
+            password: this.credentials[1],
+            includePerms: true
+          }),
+          method: "POST",
+          responseType: "json",
+        })
+        .then(res => {
+          this.access_token = res.data.access_token;
+          axios({
+              url: EndPoints.OAUTH_EXCHANGE,
+              headers: {
+                Authorization: "bearer " + this.access_token
+              },
+              method: "GET",
+              responseType: "json"
+            })
+            .then(res => {
+              this.code = res.data.code;
+              axios({
+                  url: EndPoints.OAUTH_TOKEN,
+                  headers: {
+                    Authorization: "basic " + this.credentials[3]
+                  },
+                  data: qs.stringify({
+                    grant_type: "exchange_code",
+                    exchange_code: this.code,
+                    includePerms: true,
+                    token_type: "eg1"
+                  }),
+                  method: "POST",
+                  responseType: "json"
+                })
+                .then(res => {
+                  this.expires_at = res.data.expires_at;
+                  this.access_token = res.data.access_token;
+                  this.refresh_token = res.data.refresh_token;
                   this.intervalCheckToken = setInterval(() => {
                     this.checkToken();
                   }, 1000);
                   resolve(this.expires_at);
                 })
                 .catch(err => {
-                  reject(err);
+                  reject({
+                    message: "Please enter good credentials (Fortnite Client Token)",
+                    err
+                  });
                 });
             })
             .catch(err => {
-              reject(err);
+              reject({
+                message: "Something wrong is happened, please try again.",
+                err
+              });
             });
         })
         .catch(err => {
-          reject({ message: "Please enter good token", err: err });
+          reject({
+            message: "Please enter good credentials (Login/Username/Launcher Token)",
+            err
+          });
         });
     });
   }
 
+  //Get User from Username
   lookup(username) {
     return new Promise((resolve, reject) => {
-      request({
-        url: EndPoint.lookup(username),
-        headers: {
-          Authorization: "bearer " + this.access_token
-        },
-        method: "GET",
-        json: true
-      })
-        .then(data => {
-          resolve(data);
+      axios({
+          url: EndPoints.lookup(username),
+          headers: {
+            Authorization: "bearer " + this.access_token
+          },
+          method: "GET",
+          responseType: "json"
+        })
+        .then(res => {
+          resolve(res.data);
         })
         .catch(err => {
-          reject(err);
+          reject({
+            message: "Impossible to found this user",
+            err
+          });
         });
     });
   }
 
+  //Found User by Id
   lookupById(id) {
     return new Promise((resolve, reject) => {
-      request({
-        url: EndPoint.displayNameFromId(id),
-        headers: {
-          Authorization: "bearer " + this.access_token
-        },
-        method: "GET",
-        json: true
-      })
-        .then(data => {
-          resolve(data);
+      axios({
+          url: EndPoints.displayNameFromId(id),
+          headers: {
+            Authorization: "bearer " + this.access_token
+          },
+          method: "GET",
+          responseType: "json"
+        })
+        .then(res => {
+          resolve(res.data);
         })
         .catch(err => {
-          reject(err);
+          reject({
+            message: "Impossible to found this user",
+            err
+          });
         });
     });
   }
 
+  //Check if Player exist on the platform
   checkPlayer(username, platform, timeWindow) {
     return new Promise((resolve, reject) => {
       if (!username || !platform) {
-        reject("Please precise username and platform");
+        reject({message: "Please precise username and platform"});
+        return;
       }
 
       if (!(platform == "pc" || platform == "ps4" || platform == "xb1")) {
-        reject("Please precise a good platform: ps4/xb1/pc");
+        reject({message: "Please precise a good platform: ps4/xb1/pc"});
+        return;
       }
 
       this.lookup(username)
         .then(data => {
-          request({
-            url: EndPoint.statsBR(data.id, timeWindow),
-            headers: {
-              Authorization: "bearer " + this.access_token
-            },
-            method: "GET",
-            json: true
-          })
-            .then(stats => {
+          axios({
+              url: EndPoints.statsBR(data.id, timeWindow),
+              headers: {
+                Authorization: "bearer " + this.access_token
+              },
+              method: "GET",
+              responseType: "json"
+            })
+            .then(res => {
               if (
-                stats &&
-                Stats.checkPlatform(stats, platform.toLowerCase() || "pc")
+                res.data &&
+                Stats.checkPlatform(res.data, platform.toLowerCase() || "pc")
               ) {
-                resolve(data);
+                resolve(res.data);
               } else {
-                reject(
-                  "Impossible to fetch User. User not found on this platform"
-                );
+                reject({
+                  message: "Impossible to fetch User. User not found on this platform"
+                });
               }
             })
-            .catch(() => {
-              reject("Impossible to fetch User.");
+            .catch((err) => {
+              reject({
+                message: "Impossible to found stats for this user.", 
+                err
+              });
             });
         })
         .catch(() => {
-          reject("Player Not Found");
+          reject({
+            message: "Player Not Found"
+          });
         });
     });
   }
 
+  //Battle Royal Stats from Username
   getStatsBR(username, platform, timeWindow) {
     return new Promise((resolve, reject) => {
-      if (!username || !platform) {
-        reject("Please precise username and platform");
-      }
 
-      if (!(platform == "pc" || platform == "ps4" || platform == "xb1")) {
-        reject("Please precise a good platform: ps4/xb1/pc");
-      }
-
-      this.lookup(username)
-        .then(data => {
-          request({
-            url: EndPoint.statsBR(data.id, timeWindow),
-            headers: {
-              Authorization: "bearer " + this.access_token
-            },
-            method: "GET",
-            json: true
+      this.checkPlayer(username, platform, timeWindow)
+      .then((statsdata) => {
+        this.lookup(username)
+          .then(lookupdata => {
+            const resultStats = Stats.convert(
+              statsdata,
+              lookupdata,
+              platform.toLowerCase()
+            );
+            resolve(resultStats);
           })
-            .then(stats => {
-              if (
-                stats &&
-                Stats.checkPlatform(stats, platform.toLowerCase() || "pc")
-              ) {
-                let resultStats = Stats.convert(
-                  stats,
-                  data,
-                  platform.toLowerCase()
-                );
-                resolve(resultStats);
-              } else {
-                reject(
-                  "Impossible to fetch User. User not found on this platform"
-                );
-              }
-            })
-            .catch(err => {
-              this.debug && console.log(err);
-              reject("Impossible to fetch User.");
+          .catch(() => {
+            reject({
+              message: "Player Not Found"
             });
-        })
-        .catch(() => {
-          reject("Player Not Found");
-        });
+          });
+      })
+      .catch((err) => {
+        reject(err);
+      });
     });
   }
 
+  //Battle Royal Stats from User ID
   getStatsBRFromID(id, platform, timeWindow) {
     return new Promise((resolve, reject) => {
       if (!id || !platform) {
-        reject("Please precise id and platform");
+        reject({
+          message: "Please precise username and platform"
+        });
+        return;
       }
 
       if (!(platform == "pc" || platform == "ps4" || platform == "xb1")) {
-        reject("Please precise a good platform: ps4/xb1/pc");
+        reject({
+          message: "Please precise a good platform: ps4/xb1/pc"
+        });
+        return;
       }
 
       this.lookupById(id)
         .then(data => {
-          request({
-            url: EndPoint.statsBR(data[0].id, timeWindow),
+          axios({
+            url: EndPoints.statsBR(data[0].id, timeWindow),
             headers: {
               Authorization: "bearer " + this.access_token
             },
             method: "GET",
-            json: true
-          }).then(stats => {
+            responseType: "json"
+          }).then(res => {
             if (
-              stats &&
-              Stats.checkPlatform(stats, platform.toLowerCase() || "pc")
+              res.data &&
+              Stats.checkPlatform(res.data, platform.toLowerCase() || "pc")
             ) {
               let resultStats = Stats.convert(
-                stats,
+                res.data,
                 data[0],
                 platform.toLowerCase()
               );
               resolve(resultStats);
             } else {
-              reject(
-                "Impossible to fetch User. User not found on this platform"
-              );
+              reject({
+                message: "Impossible to fetch User. User not found on this platform"
+              });
             }
           });
         })
         .catch(err => {
-          this.debug && console.log(err);
-          reject("Impossible to fetch User.");
+          reject({
+            message: "Player Not Found",
+            err
+          });
         });
     });
   }
 
-  getFortniteNews(lang) {
+  //Get Fortnite Ingame News
+  getFortniteNews(lang = "") {
     return new Promise((resolve, reject) => {
       let headers = {};
       switch (lang.toLowerCase()) {
@@ -331,61 +336,67 @@ refreshToken() {
         case "en": // English
           headers["Accept-Language"] = "en";
           break;
-        default:
+        default: // Default: English
           headers["Accept-Language"] = "en";
       }
 
-      request({
-        url: EndPoint.FortniteNews,
-        method: "GET",
-        headers: headers,
-        json: true
-      })
-        .then(data => {
+      axios({
+          url: EndPoints.FortniteNews,
+          method: "GET",
+          headers: headers,
+          responseType: "json"
+        })
+        .then(({data}) => {
           resolve({
-            common:
-              data.athenamessage.overrideablemessage.message ||
+            common: data.athenamessage.overrideablemessage.message ||
               data.athenamessage.overrideablemessage.messages,
-            br:
-              data.battleroyalenews.news.message ||
+            subgame: {
+              battleRoyale: data.subgameselectdata.battleRoyale.message || 
+                data.subgameselectdata.battleRoyale.messages,
+              creative: data.subgameselectdata.creative.message ||
+                data.subgameselectdata.creative.messages,
+              saveTheWorld: data.subgameselectdata.saveTheWorld.message ||
+                data.subgameselectdata.saveTheWorld.messages,
+              saveTheWorldUnowned: data.subgameselectdata.saveTheWorldUnowned.message ||
+                data.subgameselectdata.saveTheWorldUnowned.messages,
+            },
+            br: data.battleroyalenews.news.message ||
               data.battleroyalenews.news.messages,
-            battlepass:
-              data.battlepassmessages.news.message ||
-              data.battlepassmessages.news.messages,
-            stw:
-              data.savetheworldnews.news.message ||
+            battlepass: data.battlepassaboutmessages.news.message ||
+              data.battlepassaboutmessages.news.messages,
+            stw: data.savetheworldnews.news.message ||
               data.savetheworldnews.news.messages,
-            loginmessage:
-              data.loginmessage.loginmessage.message ||
+            loginmessage: data.loginmessage.loginmessage.message ||
               data.loginmessage.loginmessage.messages,
-            survivalmessage:
-              data.survivalmessage.overrideablemessage.message ||
+            survivalmessage: data.survivalmessage.overrideablemessage.message ||
               data.survivalmessage.overrideablemessage.messages,
-            tournamentinformation:
-              data.tournamentinformation.tournament_info.tournament ||
+            tournamentinformation: data.tournamentinformation.tournament_info.tournament ||
               data.tournamentinformation.tournament_info.tournaments,
-            emergencynotice:
-              data.emergencynotice.news.message ||
+            emergencynotice: data.emergencynotice.news.message ||
               data.emergencynotice.news.messages
           });
         })
-        .catch(() => {
-          reject("Impossible to fetch fortnite data");
+        .catch((err) => {
+          reject({
+            message: "Impossible to fetch fortnite data",
+            err
+          });
         });
     });
   }
 
+  //Get Fortnite Server Status
   checkFortniteStatus() {
     return new Promise((resolve, reject) => {
-      request({
-        url: EndPoint.FortniteStatus,
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + this.access_token
-        },
-        json: true
-      })
-        .then(data => {
+      axios({
+          url: EndPoints.FortniteStatus,
+          method: "GET",
+          headers: {
+            Authorization: "bearer " + this.access_token
+          },
+          responseType: "json"
+        })
+        .then(({data}) => {
           if (data && data[0] && data[0].status && data[0].status == "UP") {
             resolve(true);
           } else {
@@ -393,48 +404,54 @@ refreshToken() {
           }
         })
         .catch(() => {
-          reject("Impossible to fetch fortnite data");
+          reject({
+            message: "Impossible to fetch fortnite data"
+          });
         });
     });
   }
 
-  getFortnitePVEInfo(lang) {
+  //Get Fortnite PVE Info
+  getFortnitePVEInfo(lang = "") {
     return new Promise((resolve, reject) => {
       let headers = {};
       switch (lang.toLowerCase()) {
-        case "fr":
+        case "fr": // French
           headers["X-EpicGames-Language"] = "fr-FR";
           break;
-        case "en":
+        case "en": // English
           headers["X-EpicGames-Language"] = "en";
           break;
-        default:
+        default: // Default English
           headers["X-EpicGames-Language"] = "en";
       }
 
       headers["Authorization"] = "bearer " + this.access_token;
 
-      request({
-        url: EndPoint.FortnitePVEInfo,
-        method: "GET",
-        headers: headers,
-        json: true
-      })
-        .then(data => {
-          resolve(data);
+      axios({
+          url: EndPoints.FortnitePVEInfo,
+          method: "GET",
+          headers: headers,
+          responseType: "json"
+        })
+        .then(res => {
+          resolve(res.data);
         })
         .catch(err => {
-          this.debug && console.log(err);
-          reject("Impossible to fetch fortnite data !");
+          reject({
+            message: "Impossible to fetch Fortnite PVE data !",
+            err
+          });
         });
     });
   }
 
-  getStore(lang) {
+  //Get Store Data
+  getStore(lang = "") {
     return new Promise((resolve, reject) => {
       let headers = {};
       switch (lang.toLowerCase()) {
-        case "fr":
+        case "fr": // French
           headers["X-EpicGames-Language"] = "fr";
           break;
         case "de": // Deutsch
@@ -449,159 +466,134 @@ refreshToken() {
         case "en": // English
           headers["X-EpicGames-Language"] = "en";
           break;
-        default:
+        default: // Default English
           headers["X-EpicGames-Language"] = "en";
       }
 
       headers["Authorization"] = "bearer " + this.access_token;
 
-      request({
-        url: EndPoint.FortniteStore,
-        method: "GET",
-        headers: headers,
-        json: true
-      })
+      axios({
+          url: EndPoints.FortniteStore,
+          method: "GET",
+          headers: headers,
+          responseType: "json"
+        })
         .then(data => {
           resolve(data);
         })
         .catch(err => {
-          this.debug && console.log(err);
-          reject("Impossible to fetch fortnite data !");
+          reject({
+            message: "Impossible to fetch fortnite data !",
+            err
+          });
         });
     });
   }
 
-  static get SOLO() {
-    return "_p2";
-  }
-  static get DUO() {
-    return "_p10";
-  }
-  static get SQUAD() {
-    return "_p9";
-  }
-
+  //Get Leaderboard
   getScoreLeaderBoard(platform, type) {
     return new Promise((resolve, reject) => {
       if (!(platform == "pc" || platform == "ps4" || platform == "xb1")) {
-        reject("Please precise a good platform: ps4/xb1/pc");
+        reject({
+          message: "Please precise a good platform: ps4/xb1/pc"
+        });
+        return;
       }
 
       if (
         !(
-          type == this.constructor.SOLO ||
-          type == this.constructor.DUO ||
-          type == this.constructor.SQUAD
+          type == this.SOLO ||
+          type == this.DUO ||
+          type == this.SQUAD
         )
       ) {
-        reject(
-          "Please precise a good type FortniteApi.SOLO/FortniteApi.DUO/FortniteApi.SQUAD"
-        );
+        reject({
+          message: "Please precise a good type FortniteApi.SOLO/FortniteApi.DUO/FortniteApi.SQUAD"
+        });
+        return;
       }
 
-      request({
-        url: EndPoint.leaderBoardScore(platform, type),
-        headers: {
-          Authorization: "bearer " + this.access_token
-        },
-        method: "POST",
-        json: true,
-        body: []
-      })
-        .then(leaderboard => {
+      axios({
+          url: EndPoints.leaderBoardScore(platform, type),
+          headers: {
+            Authorization: "bearer " + this.access_token,
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          responseType: "json",
+        })
+        .then(({data}) => {
+          let leaderboard = data;
           leaderboard = leaderboard.entries;
 
           leaderboard.forEach(i => {
             i.accountId = i.accountId.replace(/-/g, "");
           });
 
-          request({
-            url: EndPoint.displayNameFromIds(leaderboard.map(i => i.accountId)),
-            headers: {
-              Authorization: "bearer " + this.access_token
-            },
-            method: "GET",
-            json: true
-          })
-            .then(displayNames => {
+          axios({
+              url: EndPoints.displayNameFromIds(leaderboard.map(i => i.accountId)),
+              headers: {
+                Authorization: "bearer " + this.access_token
+              },
+              method: "GET",
+              responseType: "json"
+            })
+            .then(res => {
+              
               leaderboard.forEach(i => {
-                const account = displayNames.find(ii => ii.id === i.accountId);
+                const account = res.data.find(ii => ii.id === i.accountId);
                 // for some reason not all the accounts are returned
                 i.displayName = account ? account.displayName : "";
               });
               resolve(leaderboard);
             })
             .catch(err => {
-              reject(err);
+              reject({
+                message: "Impossible to get Accounts name Leaderboard",
+                err
+              });
             });
         })
         .catch(err => {
-          reject(err);
+          reject({
+            message: "Impossible to get Leaderboard Entries",
+            err
+          });
         });
     });
   }
-  //@MENTION : Thanks to y3n help !
-  //No working anymore
-  // getStatsPVE(username) {
-  //     return new Promise((resolve, reject) => {
-  //         this.lookup(username)
-  //             .then(data => {
-  //                 request({
-  //                     url: EndPoint.statsPVE(data.id),
-  //                     headers: {
-  //                         Authorization: "bearer " + this.access_token
-  //                     },
-  //                     method: "POST",
-  //                     json: true,
-  //                     body: {}
-  //                 })
-  //                     .then(stats => {
-  //                         if (stats) {
-  //                             resolve(stats.profileChanges[0]);
-  //                         } else {
-  //                             reject("No Data");
-  //                         }
-  //                     })
-  //                     .catch(err => {
-  //                         this.debug && console.log(err);
-  //                         reject("Impossible to fetch User.");
-  //                     });
-  //             })
-  //             .catch(() => {
-  //                 reject("Player Not Found");
-  //             });
-  //     });
-  // }
 
+  //Kill Epic Games Session
   killSession() {
     return new Promise((resolve, reject) => {
-      request({
-        url: EndPoint.killSession(this.access_token),
-        headers: {
-          Authorization: "bearer " + this.access_token
-        },
-        method: "DELETE",
-        json: true,
-        body: {}
-      })
-        .then(() => {
-          resolve();
+      axios({
+          url: EndPoints.killSession(this.access_token),
+          headers: {
+            Authorization: "bearer " + this.access_token
+          },
+          method: "DELETE",
+          responseType: "json",
+          body: {}
         })
-        .catch(() => {
-          reject();
+        .then(() => {
+          resolve({message: "Session Clean"});
+        })
+        .catch((err) => {
+          reject({message: "Impossible to kill Epic Games Session", err});
         });
     });
   }
 
+  //Kill Fortnite API Instance  
   kill() {
     return new Promise((resolve, reject) => {
       this.killSession()
         .then(() => {
           clearInterval(this.intervalCheckToken);
-          resolve();
+          resolve({message: "Api Closed"});
         })
         .catch(() => {
-          reject("Impossible to kill the API. Please Try Again !");
+          reject({message: "Impossible to kill the API. Please Try Again !"});
         });
     });
   }
