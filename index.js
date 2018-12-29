@@ -2,6 +2,9 @@ const request = require("request-promise");
 const EndPoint = require("./tools/endpoint");
 const Stats = require("./tools/stats");
 
+
+require('request-debug')(request);
+
 class FortniteApi {
   constructor(credentials, options) {
     this.debug = false;
@@ -28,7 +31,7 @@ class FortniteApi {
     }
   }
 
-refreshToken() {
+  refreshToken() {
   request({
       url: EndPoint.OAUTH_TOKEN,
       headers: {
