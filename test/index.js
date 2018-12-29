@@ -4,10 +4,9 @@ const assert = require('assert');
 describe('Fornite API Tests', () => {
 
     //Set Max Timeout Mocha
-
     let fAPI = new FortniteAPI([
       process.env.EMAIL,
-      process.env.PWD,
+      process.env.PWDACCOUNT,
       process.env.TOKEN_LAUNCHER,
       process.env.TOKEN_CLIENT
     ]);
