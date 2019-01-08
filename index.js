@@ -52,6 +52,7 @@ class FortniteApi {
         this.expires_at = data.expires_at;
         this.access_token = data.access_token;
         this.refresh_token = data.refresh_token;
+        this.account_id = data.account_id;
       })
       .catch(() => {
         throw new Error("Error: Fatal Error Impossible to Renew Token");
@@ -106,6 +107,7 @@ class FortniteApi {
                   this.expires_at = res.data.expires_at;
                   this.access_token = res.data.access_token;
                   this.refresh_token = res.data.refresh_token;
+                  this.account_id = res.data.account_id;
                   this.intervalCheckToken = setInterval(() => {
                     this.checkToken();
                   }, 1000);
@@ -178,6 +180,11 @@ class FortniteApi {
           });
         });
     });
+  }
+
+  //Find User by authenticated User ID
+  lookupMe() {
+    return this.lookupById(this.account_id);
   }
 
   //Check if Player exist on the platform
@@ -308,6 +315,11 @@ class FortniteApi {
           });
         });
     });
+  }
+
+  //Battle Royale Stats from authenticated User ID
+  getMyStatsBR(platform, timeWindow) {
+    return this.getStatsBRFromID(this.account_id, platform, timeWindow);
   }
 
   //Get Fortnite Ingame News
