@@ -13,9 +13,9 @@
   "author": "Quentin Laffont",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Jake-Ruston/fortnite/issues"
+    "url": "https://github.com/qlaffont/fortnite-api/issues"
   },
-  "homepage": "https://github.com/Jake-Ruston/fortnite#readme",
+  "homepage": "https://github.com/qlaffont/fortnite-api#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "qs": "^6.6.0"
