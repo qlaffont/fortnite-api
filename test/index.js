@@ -104,4 +104,11 @@ describe('Fornite API Tests', () => {
             done();
         });
     });
+
+    it('Display Fortnite Event Flags Infos', (done) => {
+        fAPI.eventFlags().then((res) => {
+            assert.equal(typeof res, "object");
+            done();
+        });
+    });
 });

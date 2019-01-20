@@ -360,6 +360,23 @@ fortniteAPI.login().then(() => {
 true;
 ```
 
+*   eventFlags(lang) : `Promise` with `Array` Return
+
+Get Fortnite Event Flags Info 
+
+```js
+fortniteAPI.login().then(() => {
+    fortniteAPI
+        .eventFlags()
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+```
+
 *   getStore(lang) : `Promise` with `Array` Return
 
 Get Fortnite Store
@@ -609,24 +626,3 @@ fortniteAPI.login().then(() => {
 ```
 
 *   killSession() : `Promise` with no Return | Kill Session
-
----
-
-## DEPRECATED
-
-*   getStatsPVE(username: `String`) : `Promise` with `Object` Return
-
-Get PVE Stat :
-
-```js
-fortniteAPI.login().then(() => {
-    fortniteAPI
-        .getStatsPVE("Mirardes")
-        .then(stats => {
-            console.log(stats);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-});
-```

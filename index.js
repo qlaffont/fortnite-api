@@ -609,6 +609,31 @@ class FortniteApi {
         });
     });
   }
+
+  //Event Flags Infos
+  eventFlags() {
+    return new Promise((resolve, reject) => {
+      let headers = {};
+
+      headers["Authorization"] = "bearer " + this.access_token;
+
+      axios({
+          url: EndPoints.FortniteEventFlag,
+          method: "GET",
+          headers: headers,
+          responseType: "json"
+        })
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(err => {
+          reject({
+            message: "Impossible to fetch Fortnite PVE data !",
+            err
+          });
+        });
+    });
+  }
 }
 
 module.exports = FortniteApi;
