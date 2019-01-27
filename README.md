@@ -59,10 +59,7 @@ let fortniteAPI = new Fortnite(
         "PASSWORD",
         "CLIENT LAUNCHER TOKEN",
         "FORTNITE CLIENT TOKEN"
-    ],
-    {
-        debug: true
-    }
+    ]
 );
 
 fortniteAPI.login().then(() => {
