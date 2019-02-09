@@ -1,7 +1,7 @@
 # Fortnite-API
 [![npm version](https://badge.fury.io/js/fortnite-api.svg)](https://badge.fury.io/js/fortnite-api) [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/) [![Dependency Status](https://david-dm.org/qlaffont/fortnite-api.svg)](https://david-dm.org/qlaffont/fortnite-api)[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) 
 
-[![Package Quality](https://npm.packagequality.com/badge/fortnite-api.png)](https://packagequality.com/#?package=fortnite-api) [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
+[![Package Quality](https://npm.packagequality.com/badge/fortnite-api.png)](https://packagequality.com/#?package=fortnite-api)
 
 A simple to use module for interacting with Fortnite API. Inspiration from Jake-Ruston and Xilixir packages.
 
