@@ -34,6 +34,13 @@ describe('Fornite API Tests', () => {
         });
     });
 
+    it('Lookup By IDs', (done) => {
+        fAPI.lookupByIds(["6372c32ec81d4a0a9f6e79f0d5edc31a"]).then((res) => {
+            assert.equal(typeof res, "object");
+            done();
+        });
+    });
+
     it('Lookup By authenticated User ID', (done) => {
         fAPI.lookupMe().then((res) => {
             assert.equal(typeof res, "object");

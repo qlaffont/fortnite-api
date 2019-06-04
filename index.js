@@ -182,6 +182,29 @@ class FortniteApi {
     });
   }
 
+  //Found Users by Ids
+  lookupByIds(ids) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: EndPoints.displayNameFromIds(ids),
+        headers: {
+          Authorization: "bearer " + this.access_token
+        },
+        method: "GET",
+        responseType: "json"
+      })
+          .then(res => {
+            resolve(res.data);
+          })
+          .catch(err => {
+            reject({
+              message: "Impossible to find these users",
+              err
+            });
+          });
+    });
+  }
+
   //Find User by authenticated User ID
   lookupMe() {
     return this.lookupById(this.account_id);
