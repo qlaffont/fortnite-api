@@ -1,6 +1,6 @@
 {
   "name": "fortnite-api",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Fortnite API",
   "main": "index.js",
   "scripts": {
@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/qlaffont/fortnite-api#readme",
   "dependencies": {
-    "axios": "^0.18.0",
-    "qs": "^6.6.0"
+    "axios": "^0.19.0",
+    "qs": "^6.7.0"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^6.1.4"
   }
 }
