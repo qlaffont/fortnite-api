@@ -46,6 +46,12 @@ How to get these headers ?
 *   You will see again a request with /account/api/oauth/token. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Fortnite Client Token**
 *   Stop Capture
 
+/!\ Warning /!\ (Thanks @MrPowerGamerBR)
+To be sure that the API is working for you, you need to :
+* You need to disable two factor authentication before using the API, or else it will throw errors
+* You need to login at least once to Fortnite to the API to work, if not it will throw 403 Forbidden errors.
+
+
 ---
 
 ### SETUP
