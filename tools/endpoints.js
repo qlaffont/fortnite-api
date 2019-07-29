@@ -1,44 +1,44 @@
+/* eslint-disable max-len */
 module.exports = {
-  OAUTH_TOKEN:
-    "https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/token",
+  OAUTH_TOKEN: 'https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/token',
   OAUTH_EXCHANGE:
-    "https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/exchange",
+    'https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/exchange',
   OAUTH_VERIFY:
-    "https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/verify?includePerms=true",
+    'https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/verify?includePerms=true',
   FortnitePVEInfo:
-    "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/world/info",
+    'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/world/info',
   FortniteStore:
-    "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/storefront/v2/catalog",
+    'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/storefront/v2/catalog',
   FortniteStatus:
-    "https://lightswitch-public-service-prod06.ol.epicgames.com/lightswitch/api/service/bulk/status?serviceId=Fortnite",
+    'https://lightswitch-public-service-prod06.ol.epicgames.com/lightswitch/api/service/bulk/status?serviceId=Fortnite',
   FortniteNews:
-    "https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game",
-  FortniteEventFlag: 
-    "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/calendar/v1/timeline",
+    'https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game',
+  FortniteEventFlag:
+    'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/calendar/v1/timeline',
   lookup: username => {
     return (
-      "https://persona-public-service-prod06.ol.epicgames.com/persona/api/public/account/lookup?q=" +
+      'https://persona-public-service-prod06.ol.epicgames.com/persona/api/public/account/lookup?q=' +
       encodeURI(username)
     );
   },
   statsBR: (accountId, timeWindow) => {
     return (
-      "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/stats/accountId/" +
+      'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/stats/accountId/' +
       accountId +
-      "/bulk/window/" +
-      (timeWindow || "alltime")
+      '/bulk/window/' +
+      (timeWindow || 'alltime')
     );
   },
   statsPVE: accountId => {
     return (
-      "https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/" +
+      'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/' +
       accountId +
-      "/client/QueryProfile?profileId=collection_book_schematics0&rvn=-1"
+      '/client/QueryProfile?profileId=collection_book_schematics0&rvn=-1'
     );
   },
   killSession: token => {
     return (
-      "https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/sessions/kill/" +
+      'https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/sessions/kill/' +
       token
     );
   },
@@ -47,14 +47,14 @@ module.exports = {
   },
   displayNameFromIds: ids => {
     return (
-      "https://account-public-service-prod03.ol.epicgames.com/account/api/public/account?accountId=" +
-      ids.join("&accountId=")
+      'https://account-public-service-prod03.ol.epicgames.com/account/api/public/account?accountId=' +
+      ids.join('&accountId=')
     );
   },
   displayNameFromId: id => {
     return (
-      "https://account-public-service-prod03.ol.epicgames.com/account/api/public/account?accountId=" +
+      'https://account-public-service-prod03.ol.epicgames.com/account/api/public/account?accountId=' +
       id
     );
-  }
+  },
 };

@@ -1,9 +1,10 @@
 {
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended"],
   "env": {
     "node": true,
     "es6": true
   },
+  "plugins": ["prettier"],
   "parserOptions": {
     "ecmaVersion": 2017,
     "sourceType": "module",
@@ -12,36 +13,33 @@
     }
   },
   "rules": {
+    "prettier/prettier": "error",
     "semi": "error",
     "semi-spacing": "error",
     "no-console": "off",
-    "no-extra-parens": [
-      "error",
-      "all"
-    ],
+    "no-extra-parens": ["error", "all"],
     "require-await": "error",
     "yoda": "error",
     "brace-style": [
       "error",
-      "1tbs", {
+      "1tbs",
+      {
         "allowSingleLine": true
       }
     ],
-    "max-len": [
-      "error",
-      150,
-      2
-    ],
+    "max-len": ["error", 150, 2],
     "no-useless-escape": "error",
     "key-spacing": "error",
     "comma-spacing": [
-      "error", {
+      "error",
+      {
         "before": false,
         "after": true
       }
     ],
     "keyword-spacing": [
-      "error", {
+      "error",
+      {
         "overrides": {
           "if": {
             "after": true

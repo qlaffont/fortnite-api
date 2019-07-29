@@ -4,7 +4,8 @@
   "description": "Fortnite API",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 10000 --exit test/index.js"
+    "test": "npx mocha --timeout 10000 --exit test/index.js",
+    "lint": "npx eslint ."
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,9 @@
     "qs": "^6.7.0"
   },
   "devDependencies": {
-    "mocha": "^6.1.4"
+    "eslint": "^6.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "mocha": "^6.2.0",
+    "prettier": "^1.18.2"
   }
 }
