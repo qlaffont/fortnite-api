@@ -1,5 +1,6 @@
 # Fortnite-API
-[![npm version](https://badge.fury.io/js/fortnite-api.svg)](https://badge.fury.io/js/fortnite-api) [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/) [![Dependency Status](https://david-dm.org/qlaffont/fortnite-api.svg)](https://david-dm.org/qlaffont/fortnite-api)[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) 
+
+[![npm version](https://badge.fury.io/js/fortnite-api.svg)](https://badge.fury.io/js/fortnite-api) [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/) [![Dependency Status](https://david-dm.org/qlaffont/fortnite-api.svg)](https://david-dm.org/qlaffont/fortnite-api)[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 [![Package Quality](https://npm.packagequality.com/badge/fortnite-api.png)](https://packagequality.com/#?package=fortnite-api)
 
@@ -14,14 +15,13 @@ You can submit a pull request to help the project, but all tests need to be OK (
 
 ## Install
 
-```
-$ npm install fortnite-api
+```bash
+npm install fortnite-api
 ```
 
 ## API
 
 ### INIT
-
 
 *You can use this default token or capture it (see below).*
 
@@ -29,29 +29,28 @@ $ npm install fortnite-api
 
 "FORTNITE CLIENT TOKEN" => "ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ="
 
-
 To setup this module, you need to have an account on Epic Games. After that you need to get 2 dedicated headers from Fortnite.
 
 How to get these headers ?
 
-*   Install & Open Fiddler 4
-*   In Tools -> Options -> HTTPS, Select Capture HTTPS Connects
-*   In Tools -> Options -> HTTPS, Select Decrypt HTTPS traffic
-*   Start Capture (F12)
-*   After that start your epic games launcher.
-*   You will see a request with /account/api/oauth/token. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Client Launcher Token**
-*   **Press F12 to stop scan** (Fortnite stop working if you capture HTTPS requests at this moment)
-*   Launch Fortnite
-*   When the game tell you : "Connecting" or "Update" in waiting screen, **Press F12 to reactivate requests capture**
-*   You will see again a request with /account/api/oauth/token. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Fortnite Client Token**
-*   Stop Capture
+* Install & Open Fiddler 4
+* In Tools -> Options -> HTTPS, Select Capture HTTPS Connects
+* In Tools -> Options -> HTTPS, Select Decrypt HTTPS traffic
+* Start Capture (F12)
+* After that start your epic games launcher.
+* You will see a request with /account/api/oauth/token. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Client Launcher Token**
+* **Press F12 to stop scan** (Fortnite stop working if you capture HTTPS requests at this moment)
+* Launch Fortnite
+* When the game tell you : "Connecting" or "Update" in waiting screen, **Press F12 to reactivate requests capture**
+* You will see again a request with /account/api/oauth/token. Click on it and click after that on Inspectors get the header (Authorization header content and remove basic) => **This header is your Fortnite Client Token**
+* Stop Capture
 
 /!\ **Warning** /!\ (Thanks @MrPowerGamerBR)
 
 To be sure that the API is working for you, you need to :
+
 * You need to disable two factor authentication before using the API, or else it will throw errors
 * You need to login at least once to Fortnite to the API to work, if not it will throw 403 Forbidden errors.
-
 
 ---
 
@@ -78,13 +77,14 @@ fortniteAPI.login().then(() => {
 ---
 
 ### TOKEN REFRESH
+
 The package will refresh automatically when the token will expired. But if you want to force the refresh, you can do it with this command `forniteApi.refreshToken()`.
 
 ---
 
 ### METHODS
 
-*   checkPlayer() : `Promise` with `String` Return
+* checkPlayer() : `Promise` with `String` Return
 
 Check if player is found on this platform
 
@@ -105,7 +105,7 @@ fortniteAPI.login().then(() => {
 "User Found !";
 ```
 
-*   getStatsBR(username: `String`, platform: `String`, timeWindow: `String`) : `Promise` with `Object` Return
+* getStatsBR(username: `String`, platform: `String`, timeWindow: `String`) : `Promise` with `Object` Return
 
 Get Battle Royal Stat for platform (pc, ps4, xb1) and for a time window defined "alltime" OR "weekly" (seasonal data);
 
@@ -191,7 +191,7 @@ fortniteAPI.login().then(() => {
  }
 ```
 
-*   getStatsBRFromID(idFortniteUser: `String`, platform: `String`) : `Promise` with `Object` Return
+* getStatsBRFromID(idFortniteUser: `String`, platform: `String`) : `Promise` with `Object` Return
 
 Get Battle Royal Stat for platform (pc, ps4, xb1);
 
@@ -277,7 +277,7 @@ fortniteAPI.login().then(() => {
  }
 ```
 
-*   getFortniteNews(lang) : `Promise` with `Object` Return
+* getFortniteNews(lang) : `Promise` with `Object` Return
 
 Get Fortnite News on 'en' or 'fr'
 
@@ -322,7 +322,7 @@ ted-time mode will be revealed live.'
 }
 ```
 
-*   checkFortniteStatus() : `Promise` with `Boolean` Return
+* checkFortniteStatus() : `Promise` with `Boolean` Return
 
 Check if fortnite is ON (Return True) or Not (Return False)
 
@@ -343,7 +343,7 @@ fortniteAPI.login().then(() => {
 true;
 ```
 
-*   getFortnitePVEInfo(lang) : `Promise` with `Array` Return
+* getFortnitePVEInfo(lang) : `Promise` with `Array` Return
 
 Get Fortnite PVE Info (storm, etc)
 lang => FR/EN
@@ -365,9 +365,9 @@ fortniteAPI.login().then(() => {
 true;
 ```
 
-*   eventFlags(lang) : `Promise` with `Array` Return
+* eventFlags(lang) : `Promise` with `Array` Return
 
-Get Fortnite Event Flags Info 
+Get Fortnite Event Flags Info
 
 ```js
 fortniteAPI.login().then(() => {
@@ -382,7 +382,7 @@ fortniteAPI.login().then(() => {
 });
 ```
 
-*   getStore(lang) : `Promise` with `Array` Return
+* getStore(lang) : `Promise` with `Array` Return
 
 Get Fortnite Store
 lang => FR/EN
@@ -404,7 +404,7 @@ fortniteAPI.login().then(() => {
 true;
 ```
 
-*   getScoreLeaderBoard(platform,type) : `Promise` with `Array` Return
+* getScoreLeaderBoard(platform,type) : `Promise` with `Array` Return
 
 Get Fortnite global leaderboard
 
@@ -426,7 +426,7 @@ fortniteAPI.login().then(() => {
 ```
 
 ```js
-[ 
+[
     { accountId: '385c4d9ab7e3498db533ff4d2d9f4c5b',
     value: 905,
     rank: 1,
@@ -626,8 +626,25 @@ fortniteAPI.login().then(() => {
   { accountId: '4735ce9132924caf8a5b17789b40f79c',
     value: 362,
     rank: 50,
-    displayName: 'Ninja' } 
+    displayName: 'Ninja' }
     ]
 ```
 
-*   killSession() : `Promise` with no Return | Kill Session
+* killSession() : `Promise` with no Return | Kill Session
+
+---
+
+### Additional Informations
+
+For functions, where you can specify languages (*getFortniteNews()*, *getFortnitePVEInfo()*, *getStore()*),
+you can specify an options object.
+
+```js
+options = {
+  ignoreCheck: true // default, false. Disable language verification
+  langFormat: { // Change Language Format if needed
+    "fr": "fr-FR",
+    "ca": "fr-CA"
+  }
+}
+```
