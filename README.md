@@ -109,7 +109,7 @@ fortniteAPI.login().then(() => {
 
 * getStatsBR(username: `String`, platform: `String`, timeWindow: `String`) : `Promise` with `Object` Return
 
-Get Battle Royal Stat for platform (pc, ps4, xb1) and for a time window defined "alltime" OR "weekly" (seasonal data);
+Get Battle Royale Stat for platform (pc, ps4, xb1) and for a time window defined "alltime" OR "weekly" (seasonal data);
 
 ```js
 fortniteAPI.login().then(() => {
@@ -195,7 +195,7 @@ fortniteAPI.login().then(() => {
 
 * getStatsBRFromID(idFortniteUser: `String`, platform: `String`) : `Promise` with `Object` Return
 
-Get Battle Royal Stat for platform (pc, ps4, xb1);
+Get Battle Royale Stat for platform (pc, ps4, xb1);
 
 ```js
 fortniteAPI.login().then(() => {
