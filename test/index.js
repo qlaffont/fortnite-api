@@ -30,14 +30,14 @@ describe('Fornite API Tests', () => {
   });
 
   it('Lookup By ID', done => {
-    fAPI.lookupById('6372c32ec81d4a0a9f6e79f0d5edc31a').then(res => {
+    fAPI.lookupById('2B021E84B10A6824896F95FF59C43D2142CA933DC6DCCF5FF59E49822F616145').then(res => {
       assert.equal(typeof res, 'object');
       done();
     });
   });
 
   it('Lookup By IDs', done => {
-    fAPI.lookupByIds(['6372c32ec81d4a0a9f6e79f0d5edc31a']).then(res => {
+    fAPI.lookupByIds(['2B021E84B10A6824896F95FF59C43D2142CA933DC6DCCF5FF59E49822F616145']).then(res => {
       assert.equal(typeof res, 'object');
       done();
     });
@@ -65,14 +65,14 @@ describe('Fornite API Tests', () => {
   });
 
   it('Get Battle Royal Stats from ID', done => {
-    fAPI.getStatsBRFromID('6372c32ec81d4a0a9f6e79f0d5edc31a', 'pc', 'alltime').then(res => {
+    fAPI.getStatsBRFromID('2B021E84B10A6824896F95FF59C43D2142CA933DC6DCCF5FF59E49822F616145', 'pc', 'alltime').then(res => {
       assert.equal(typeof res, 'object');
       done();
     });
   });
 
   it('Get Battle Royale Stats from authenticated User ID', done => {
-    fAPI.account_id = '6372c32ec81d4a0a9f6e79f0d5edc31a';
+    fAPI.account_id = '2B021E84B10A6824896F95FF59C43D2142CA933DC6DCCF5FF59E49822F616145';
     fAPI.getMyStatsBR('pc', 'alltime').then(res => {
       assert.equal(typeof res, 'object');
       done();
