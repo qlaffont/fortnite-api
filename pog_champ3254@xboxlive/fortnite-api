@@ -1,1 +1,12 @@
 ## 'pog_champ3254@xboxlive/fortnite-api`
+
+# fortniteAPI.login().then(() => {
+    fortniteAPI
+        .checkPlayer("Mirardes", "pc")
+        .then(stats => {
+            console.log(stats);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
